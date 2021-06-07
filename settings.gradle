@@ -1,0 +1,3 @@
+include ':ElementHistoryDialog'
+include ':app'
+rootProject.name = "SampleApplication"
