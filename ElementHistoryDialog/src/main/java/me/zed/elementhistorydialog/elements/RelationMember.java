@@ -3,12 +3,10 @@ package me.zed.elementhistorydialog.elements;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.Serializable;
-
 /**
  * members of a relation, i.e associated OSM elements
  */
-public class RelationMember implements Serializable {
+public class RelationMember {
     private static final long serialVersionUID = 6L;
 
     final String type;

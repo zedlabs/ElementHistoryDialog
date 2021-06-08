@@ -58,7 +58,6 @@ public class Relation extends OsmElement {
      *
      * @return list of members, or null if there are none
      */
-    @Nullable
     public List<RelationMember> getMembers() {
         return members;
     }
