@@ -15,6 +15,7 @@ public abstract class OsmElement {
 
     public static final String ID_ATTR = "id";
     public static final String VERSION_ATTR = "version";
+    public static final String TAG = "tag";
 
     public long osmId;
     public long osmVersion;
