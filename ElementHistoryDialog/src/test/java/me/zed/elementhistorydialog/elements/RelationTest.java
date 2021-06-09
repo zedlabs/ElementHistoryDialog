@@ -28,6 +28,9 @@ public class RelationTest {
         assertEquals(r.getMembersWithRole("inner").get(0).ref, 2);
     }
 
+    /**
+     * Check relation type for the test
+     */
     @Test
     public void getTypeTest(){
         Relation r = new Relation(1, 1);
