@@ -1,0 +1,325 @@
+<osm version="0.6" generator="CGImap 0.8.3 (370959 spike-06.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<relation id="12" visible="true" version="1" changeset="80780" timestamp="2006-08-12T22:11:37Z" user="Matthew Newton" uid="2955">
+<member type="way" ref="2878061" role=""/>
+<member type="way" ref="8125153" role=""/>
+<member type="way" ref="8125154" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="2" changeset="300788" timestamp="2008-03-10T17:21:33Z" user="robx" uid="17508">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="3" changeset="534119" timestamp="2008-12-21T19:31:43Z" user="kevjs1982" uid="84075">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="created_by" v="Potlatch 0.10f"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="4" changeset="736840" timestamp="2009-01-05T13:31:45Z" user="SK53" uid="84681">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="29694801" role=""/>
+<tag k="created_by" v="Potlatch 0.10f"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="5" changeset="736840" timestamp="2009-01-05T13:31:57Z" user="SK53" uid="84681">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="29694801" role="inner"/>
+<tag k="created_by" v="Potlatch 0.10f"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="6" changeset="736840" timestamp="2009-01-05T13:38:41Z" user="SK53" uid="84681">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="created_by" v="Potlatch 0.10f"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="7" changeset="1628753" timestamp="2009-06-26T03:07:06Z" user="adaman797" uid="135807">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="created_by" v="Potlatch 0.10f"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="8" changeset="8490594" timestamp="2011-06-20T02:33:02Z" user="murlwe" uid="18790">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="68055487" role="inner"/>
+<member type="way" ref="68055485" role="outer"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="9" changeset="8490669" timestamp="2011-06-20T03:00:45Z" user="seav" uid="11126">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="10" changeset="8629934" timestamp="2011-07-04T14:20:28Z" user="leongard" uid="333100">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="26205512" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="11" changeset="8723454" timestamp="2011-07-14T16:08:53Z" user="PNPM MPd Sultra" uid="488382">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="26205512" role=""/>
+<member type="node" ref="1361645862" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="12" changeset="8727066" timestamp="2011-07-14T23:20:32Z" user="deepblue66" uid="462959">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="13" changeset="10784172" timestamp="2012-02-25T01:33:52Z" user="pilotrobert" uid="494790">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="150561037" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="14" changeset="11889546" timestamp="2012-06-13T21:19:15Z" user="Spezialist" uid="54676">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="150561037" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="15" changeset="12079234" timestamp="2012-07-01T18:00:19Z" user="togö" uid="607636">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="150561037" role=""/>
+<member type="way" ref="4894187" role=""/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="16" changeset="12098145" timestamp="2012-07-03T09:37:00Z" user="Oli-Wan" uid="293774">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="17" changeset="12588941" timestamp="2012-08-02T18:14:35Z" user="tms13" uid="91225">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="18" changeset="12769144" timestamp="2012-08-18T03:42:17Z" user="mentor" uid="38588">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="19" changeset="13262691" timestamp="2012-09-26T18:35:54Z" user="casi48" uid="904336">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<member type="way" ref="53802898" role=""/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="20" changeset="13342675" timestamp="2012-10-03T04:54:26Z" user="Osmonav" uid="51991">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="21" changeset="13422700" timestamp="2012-10-09T07:23:23Z" user="zVID" uid="328526">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="22" changeset="13661164" timestamp="2012-10-28T13:27:57Z" user="Nahainec" uid="96268">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="23" changeset="14838421" timestamp="2013-01-29T19:32:47Z" user="darcar" uid="1190940">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<member type="way" ref="89469530" role=""/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="24" changeset="14870920" timestamp="2013-02-01T13:00:30Z" user="LLAQWA" uid="77114">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="25" changeset="15526788" timestamp="2013-03-28T12:57:14Z" user="Niav" uid="1306030">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<member type="way" ref="36741128" role=""/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="26" changeset="15554565" timestamp="2013-03-30T18:17:47Z" user="RedFox" uid="10610">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="27" changeset="16856206" timestamp="2013-07-07T05:21:16Z" user="arapede06" uid="1617571">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<member type="way" ref="29106087" role=""/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="28" changeset="16905978" timestamp="2013-07-10T21:32:31Z" user="Colin Smale" uid="30525">
+<member type="way" ref="2878061" role="outer"/>
+<member type="way" ref="93118537" role="inner"/>
+<member type="way" ref="93118542" role="inner"/>
+<member type="way" ref="93118544" role="inner"/>
+<member type="way" ref="117812033" role="inner"/>
+<member type="way" ref="93118543" role="inner"/>
+<member type="way" ref="117812032" role="inner"/>
+<member type="way" ref="93118539" role="inner"/>
+<member type="way" ref="93118538" role="inner"/>
+<member type="way" ref="8125153" role="inner"/>
+<member type="way" ref="8125154" role="inner"/>
+<member type="way" ref="117812034" role="inner"/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="29" changeset="17149165" timestamp="2013-07-30T08:42:37Z" user="ugabrielu" uid="540017">
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="true" version="30" changeset="19135726" timestamp="2013-11-26T22:32:52Z" user="Richardbla" uid="1788169">
+<member type="way" ref="97294546" role=""/>
+<tag k="name" v="Clifton Pond"/>
+<tag k="natural" v="water"/>
+<tag k="type" v="multipolygon"/>
+</relation>
+<relation id="12" visible="false" version="31" changeset="19921218" timestamp="2014-01-10T17:25:00Z" user="FrançoiseR" uid="626239"/>
+</osm>
