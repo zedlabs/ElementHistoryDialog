@@ -1,30 +1,14 @@
 package me.zed.elementhistorydialog.elements;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import me.zed.elementhistorydialog.Storage;
+import java.util.TreeMap;
+
+import static me.zed.elementhistorydialog.elements.Relation.KEY_TYPE;
+import static me.zed.elementhistorydialog.elements.Relation.VALUE_MULTIPOLYGON;
+import static org.junit.Assert.assertEquals;
 
 public class RelationTest {
-
-
-    private static final String DEBUG_TAG = "StorageTest";
-    private Storage storage;
-
-    /**
-     * Pre-test setup
-     */
-    @Before
-    public void setup() {
-        storage = new Storage();
-    }
-
-    @After
-    public void destroy(){
-        storage = null;
-    }
 
     /**
      * Checks the role of the relation-member returned by getMembersWithRole()
@@ -46,6 +30,12 @@ public class RelationTest {
 
     @Test
     public void getTypeTest(){
+        Relation r = new Relation(1, 1);
+        TreeMap<String, String> tags = new TreeMap<>();
+        tags.put(KEY_TYPE, "");
+        assertEquals(r.getType(tags), OsmElement.ElementType.RELATION);
+        tags.put(KEY_TYPE, VALUE_MULTIPOLYGON);
+        assertEquals(r.getType(tags), OsmElement.ElementType.AREA);
 
     }
 }

@@ -78,7 +78,7 @@ public class Storage {
      *
      * @param element element to insert
      */
-    void insertElementUnsafe(@Nullable final OsmElement element) {
+    public void insertElementUnsafe(@Nullable final OsmElement element) {
         if (element instanceof Way) {
             insertWayUnsafe((Way) element);
         } else if (element instanceof Node) {
