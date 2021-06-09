@@ -43,7 +43,7 @@ public class Storage {
         nodeList.add(node);
     }
 
-    List<Node> getNodeList() {
+    public List<Node> getNodeList() {
         return nodeList;
     }
 
@@ -56,7 +56,7 @@ public class Storage {
         wayList.add(way);
     }
 
-    List<Way> getWayList() {
+    public List<Way> getWayList() {
         return wayList;
     }
 
@@ -69,7 +69,7 @@ public class Storage {
         relationList.add(relation);
     }
 
-    List<Relation> getRelationList() {
+    public List<Relation> getRelationList() {
         return relationList;
     }
 
