@@ -13,7 +13,7 @@ public class Log {
 
     /**
      * Debug log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @return not documented
@@ -25,7 +25,7 @@ public class Log {
 
     /**
      * Debug log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @param e Throwable that caused the error
@@ -38,7 +38,7 @@ public class Log {
 
     /**
      * Information log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @return not documented
@@ -50,7 +50,7 @@ public class Log {
 
     /**
      * Warning log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @return not documented
@@ -62,7 +62,7 @@ public class Log {
 
     /**
      * Warning log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @param e Throwable that caused the error
@@ -75,7 +75,7 @@ public class Log {
 
     /**
      * Error log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @return not documented
@@ -87,7 +87,7 @@ public class Log {
 
     /**
      * Error log message
-     *
+     * 
      * @param tag log tag
      * @param msg message
      * @param e Throwable that caused the error
@@ -100,7 +100,7 @@ public class Log {
 
     /**
      * Check if the the tag can be logged
-     *
+     * 
      * @param tag tag
      * @param logLevel log level
      * @return always true
