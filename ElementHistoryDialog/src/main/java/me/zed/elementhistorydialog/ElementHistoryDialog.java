@@ -14,6 +14,7 @@ public class ElementHistoryDialog extends DialogFragment {
 
     private long osmId;
     private String elementType;
+    private OsmParser osmParser;
 
     /**
      * Method that will create a new instance of the Dialog
@@ -29,6 +30,7 @@ public class ElementHistoryDialog extends DialogFragment {
     private ElementHistoryDialog(long osmId, String elementType) {
         this.osmId = osmId;
         this.elementType = elementType;
+        osmParser = new OsmParser();
     }
 
     @NonNull
