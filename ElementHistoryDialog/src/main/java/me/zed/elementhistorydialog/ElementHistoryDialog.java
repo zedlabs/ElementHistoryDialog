@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,7 +62,30 @@ public class ElementHistoryDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fetchHistoryData();
-        return inflater.inflate(R.layout.edit_selection_screen, null);
+        View parent = inflater.inflate(R.layout.edit_selection_screen, null);
+        return parent;
+    }
+
+    /**
+     * Add a row to the TableLayout
+     *
+     * @param context Android context
+     */
+    private void addRows(@NonNull Context context) {
+
+    }
+
+    /**
+     * Create a row in the dialog for each version of OSM element
+     *
+     * @param context Android context
+     * @return a TableRow
+     */
+    @NonNull
+    TableRow createRow(@NonNull Context context) {
+        TableRow tr = new TableRow(context);
+
+        return tr;
     }
 
     void fetchHistoryData() {
