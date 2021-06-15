@@ -77,12 +77,19 @@ public class ElementHistoryDialog extends DialogFragment {
     }
 
     /**
-     * Add a row to the TableLayout
+     * Add rows for all received versions
      *
      * @param context Android context
      */
     private void addRows(@NonNull Context context) {
-
+        switch (elementType) {
+            case "node":
+                break;
+            case "way":
+                break;
+            case "relation":
+                break;
+        }
     }
 
     /**
@@ -101,29 +108,36 @@ public class ElementHistoryDialog extends DialogFragment {
     void fetchHistoryData() {
         URL url = Util.getElementHistoryUrl(osmId, elementType);
         try {
-            new AsyncTask<Void, Void, InputStream>() {
+            new AsyncTask<Void, Void, Boolean>() {
 
                 @Override
-                protected InputStream doInBackground(Void... voids) {
-                    InputStream is;
+                protected Boolean doInBackground(Void... voids) {
+                    InputStream is = null;
                     try {
                         is = openConnection(getActivity(), url);
-                        return is;
+                        //return is;
                     } catch (IOException e) {
                         Log.e(DEBUG_TAG, e.getMessage());
                     }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(InputStream is) {
-                    super.onPostExecute(is);
                     if (is != null) {
                         try {
                             osmParser.start(is);
+                            return true;
                         } catch (SAXException | IOException | ParserConfigurationException e) {
                             e.printStackTrace();
                         }
+                    }
+                    return false;
+                }
+
+                @Override
+                protected void onPostExecute(Boolean result) {
+                    super.onPostExecute(result);
+                    if (result == false) {
+                        //handle failed case
+                    } else {
+                        //add data to the rows
+                        addRows(requireContext());
                     }
                 }
             }.execute();
