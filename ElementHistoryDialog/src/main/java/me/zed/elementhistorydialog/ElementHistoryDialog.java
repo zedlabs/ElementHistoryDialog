@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,9 +22,12 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import me.zed.elementhistorydialog.elements.Node;
+import me.zed.elementhistorydialog.elements.OsmElement;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,6 +38,7 @@ public class ElementHistoryDialog extends DialogFragment {
     private long osmId;
     private String elementType;
     private OsmParser osmParser;
+    private TableLayout tl;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
     /**
@@ -71,9 +77,16 @@ public class ElementHistoryDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fetchHistoryData();
+
         View parent = inflater.inflate(R.layout.edit_selection_screen, null);
+        tl = parent.findViewById(R.id.item_history);
         return parent;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        fetchHistoryData();
     }
 
     /**
@@ -82,13 +95,10 @@ public class ElementHistoryDialog extends DialogFragment {
      * @param context Android context
      */
     private void addRows(@NonNull Context context) {
-        switch (elementType) {
-            case "node":
-                break;
-            case "way":
-                break;
-            case "relation":
-                break;
+        List<OsmElement> res = osmParser.getStorage().getAll();
+        for (OsmElement e : res) {
+            TableRow tr = createRow(context, e);
+            tl.addView(tr);
         }
     }
 
@@ -99,9 +109,12 @@ public class ElementHistoryDialog extends DialogFragment {
      * @return a TableRow
      */
     @NonNull
-    TableRow createRow(@NonNull Context context) {
+    TableRow createRow(@NonNull Context context, OsmElement e) {
         TableRow tr = new TableRow(context);
-
+        TextView cell = new TextView(context);
+        cell.setText(String.valueOf(e.osmVersion));
+        cell.setSingleLine();
+        tr.addView(cell);
         return tr;
     }
 
