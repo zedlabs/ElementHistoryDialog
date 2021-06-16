@@ -15,10 +15,16 @@ public abstract class OsmElement {
 
     public static final String ID_ATTR = "id";
     public static final String VERSION_ATTR = "version";
+    public static final String USER_ATTR = "user";
+    public static final String TIMESTAMP_ATTR = "timestamp";
+
     public static final String TAG = "tag";
 
     public long osmId;
     public long osmVersion;
+    public String username;
+    public long timestamp;
+
     public TreeMap<String, String> tags;
 
     /**
@@ -27,9 +33,11 @@ public abstract class OsmElement {
      * @param osmId      the id
      * @param osmVersion version
      */
-    OsmElement(final long osmId, final long osmVersion) {
+    OsmElement(final long osmId, final long osmVersion, final String userName, final long timestamp) {
         this.osmId = osmId;
         this.osmVersion = osmVersion;
+        this.username = userName;
+        this.timestamp = timestamp;
         this.tags = new TreeMap<String, String>();
     }
 

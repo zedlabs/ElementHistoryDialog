@@ -34,8 +34,8 @@ public class Relation extends OsmElement {
      * @param osmId      the OSM id
      * @param osmVersion the version
      */
-    public Relation(final long osmId, final long osmVersion) {
-        super(osmId, osmVersion);
+    public Relation(final long osmId, final long osmVersion, final String userName, final long timestamp) {
+        super(osmId, osmVersion, userName, timestamp);
         members = new ArrayList<>();
     }
 

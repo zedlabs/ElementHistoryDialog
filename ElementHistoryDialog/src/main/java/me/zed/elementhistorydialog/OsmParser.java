@@ -11,6 +11,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -192,6 +193,17 @@ public class OsmParser extends DefaultHandler {
             long osmId = Long.parseLong(atts.getValue(OsmElement.ID_ATTR));
             String version = atts.getValue(OsmElement.VERSION_ATTR);
             long osmVersion = version == null ? 0 : Long.parseLong(version); // hack for JOSM file
+            String username = atts.getValue(OsmElement.USER_ATTR);
+
+            String timestampStr = atts.getValue(OsmElement.TIMESTAMP_ATTR);
+            long timestamp = -1L;
+            if (timestampStr != null) {
+                try {
+                    timestamp = DateFormatter.getUtcFormat(OsmParser.TIMESTAMP_FORMAT).parse(timestampStr).getTime() / 1000;
+                } catch (ParseException e) {
+                    Log.d(DEBUG_TAG, "Invalid timestamp " + timestampStr);
+                }
+            }
 
             switch (name) {
                 case Node.NAME:
@@ -200,13 +212,13 @@ public class OsmParser extends DefaultHandler {
                         lat = (new BigDecimal(atts.getValue(Node.LAT)).scaleByPowerOfTen(Node.COORDINATE_SCALE)).intValue();
                         lon = (new BigDecimal(atts.getValue(Node.LON)).scaleByPowerOfTen(Node.COORDINATE_SCALE)).intValue();
                     }
-                    currentNode = OsmElementFactory.createNode(osmId, osmVersion, lat, lon);
+                    currentNode = OsmElementFactory.createNode(osmId, osmVersion, username, timestamp, lat, lon);
                     break;
                 case Way.NAME:
-                    currentWay = OsmElementFactory.createWay(osmId, osmVersion);
+                    currentWay = OsmElementFactory.createWay(osmId, osmVersion, username, timestamp);
                     break;
                 case Relation.NAME:
-                    currentRelation = OsmElementFactory.createRelation(osmId, osmVersion);
+                    currentRelation = OsmElementFactory.createRelation(osmId, osmVersion, username, timestamp);
                     break;
                 default:
                     throw new OsmParseException("Unknown element " + name);

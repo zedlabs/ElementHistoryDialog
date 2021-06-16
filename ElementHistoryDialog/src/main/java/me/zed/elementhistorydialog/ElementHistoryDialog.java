@@ -111,10 +111,18 @@ public class ElementHistoryDialog extends DialogFragment {
     @NonNull
     TableRow createRow(@NonNull Context context, OsmElement e) {
         TableRow tr = new TableRow(context);
-        TextView cell = new TextView(context);
-        cell.setText(String.valueOf(e.osmVersion));
-        cell.setSingleLine();
-        tr.addView(cell);
+        TextView cell1 = new TextView(context);
+        cell1.setText(String.valueOf(e.osmVersion));
+        cell1.setSingleLine();
+        tr.addView(cell1);
+        TextView cell2 = new TextView(context);
+        cell2.setText(String.valueOf(e.username));
+        cell2.setSingleLine();
+        tr.addView(cell2);
+        TextView cell3 = new TextView(context);
+        cell3.setText(String.valueOf(e.timestamp));
+        cell3.setSingleLine();
+        tr.addView(cell3);
         return tr;
     }
 
