@@ -1,5 +1,7 @@
 package me.zed.elementhistorydialog.elements;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -7,6 +9,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import me.zed.elementhistorydialog.DateFormatter;
+import me.zed.elementhistorydialog.OsmParser;
 
 /**
  * Base Class for all OSM elements
@@ -23,7 +28,7 @@ public abstract class OsmElement {
     public long osmId;
     public long osmVersion;
     public String username;
-    public long timestamp;
+    public String timestamp;
 
     public TreeMap<String, String> tags;
 
@@ -37,7 +42,7 @@ public abstract class OsmElement {
         this.osmId = osmId;
         this.osmVersion = osmVersion;
         this.username = userName;
-        this.timestamp = timestamp;
+        setTimestamp(timestamp);
         this.tags = new TreeMap<String, String>();
     }
 
@@ -91,6 +96,15 @@ public abstract class OsmElement {
      */
     public void setTags(@Nullable final Map<String, String> tags) {
         this.tags.putAll(tags);
+    }
+
+    /**
+     * Set the timestamp
+     *
+     * @param secsSinceUnixEpoch seconds since the Unix Epoch
+     */
+    public void setTimestamp(long secsSinceUnixEpoch) {
+        timestamp = DateFormatter.getUtcFormat(OsmParser.TIMESTAMP_FORMAT).format(secsSinceUnixEpoch * 1000L);
     }
 
     /**
