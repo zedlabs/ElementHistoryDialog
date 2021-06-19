@@ -1,5 +1,6 @@
 package me.zed.elementhistorydialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,13 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.xml.sax.SAXException;
 
@@ -38,7 +39,7 @@ public class ElementHistoryDialog extends DialogFragment {
     private long osmId;
     private String elementType;
     private OsmParser osmParser;
-    private TableLayout tl;
+    RecyclerView versionList;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
     /**
@@ -79,7 +80,7 @@ public class ElementHistoryDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View parent = inflater.inflate(R.layout.edit_selection_screen, null);
-        tl = parent.findViewById(R.id.item_history);
+        versionList = (RecyclerView) parent.findViewById(R.id.itemVersionList);
         return parent;
     }
 
@@ -89,41 +90,52 @@ public class ElementHistoryDialog extends DialogFragment {
         fetchHistoryData();
     }
 
-    /**
-     * Add rows for all received versions
-     *
-     * @param context Android context
-     */
-    private void addRows(@NonNull Context context) {
-        List<OsmElement> res = osmParser.getStorage().getAll();
-        for (OsmElement e : res) {
-            TableRow tr = createRow(context, e);
-            tl.addView(tr);
+    private void addToList(Context ctx) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
+        versionList.setLayoutManager(layoutManager);
+        final VersionListAdapter adapter = new VersionListAdapter(
+                osmParser.getStorage().getAll(),
+                new AOnCheckedChangeListener(osmParser.getStorage().getAll()),
+                new BOnCheckedChangeListener(osmParser.getStorage().getAll()));
+        versionList.setAdapter(adapter);
+    }
+
+    private class AOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
+        final List<OsmElement> ids;
+
+        AOnCheckedChangeListener(@NonNull List<OsmElement> ids) {
+            this.ids = ids;
+        }
+
+        @SuppressLint("ResourceType")
+        @Override
+        public void onCheckedChanged(RadioGroup group, int position) {
+            if (position != -1 && position < ids.size()) {
+                Log.e("1.", "testA" + position);
+            } else {
+                Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
+            }
+
         }
     }
 
-    /**
-     * Create a row in the dialog for each version of OSM element
-     *
-     * @param context Android context
-     * @return a TableRow
-     */
-    @NonNull
-    TableRow createRow(@NonNull Context context, OsmElement e) {
-        TableRow tr = new TableRow(context);
-        TextView cell1 = new TextView(context);
-        cell1.setText(String.valueOf(e.osmVersion));
-        cell1.setSingleLine();
-        tr.addView(cell1);
-        TextView cell2 = new TextView(context);
-        cell2.setText(String.valueOf(e.username));
-        cell2.setSingleLine();
-        tr.addView(cell2);
-        TextView cell3 = new TextView(context);
-        cell3.setText(String.valueOf(e.timestamp));
-        cell3.setSingleLine();
-        tr.addView(cell3);
-        return tr;
+    private class BOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
+        final List<OsmElement> ids;
+
+        BOnCheckedChangeListener(@NonNull List<OsmElement> ids) {
+            this.ids = ids;
+        }
+
+        @SuppressLint("ResourceType")
+        @Override
+        public void onCheckedChanged(RadioGroup group, int position) {
+            if (position != -1 && position < ids.size()) {
+                Log.e("1.", "testB" + position);
+            } else {
+                Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
+            }
+
+        }
     }
 
     void fetchHistoryData() {
@@ -158,7 +170,7 @@ public class ElementHistoryDialog extends DialogFragment {
                         //handle failed case
                     } else {
                         //add data to the rows
-                        addRows(requireContext());
+                        addToList(requireContext());
                     }
                 }
             }.execute();

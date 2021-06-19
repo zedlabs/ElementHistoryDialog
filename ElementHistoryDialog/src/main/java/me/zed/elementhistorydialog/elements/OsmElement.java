@@ -1,7 +1,5 @@
 package me.zed.elementhistorydialog.elements;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

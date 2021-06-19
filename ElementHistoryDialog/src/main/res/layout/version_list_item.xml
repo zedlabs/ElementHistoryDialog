@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/osmVersion"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="1."/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/listItemRadioButtonA"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/listItemRadioButtonB"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:text="PolarbearRepair"/>
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:text="2021-01-01 21:32:11"/>
+</LinearLayout>
