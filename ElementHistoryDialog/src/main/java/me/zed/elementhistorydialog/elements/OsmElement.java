@@ -104,7 +104,9 @@ public abstract class OsmElement {
      * @param secsSinceUnixEpoch seconds since the Unix Epoch
      */
     public void setTimestamp(long secsSinceUnixEpoch) {
-        timestamp = DateFormatter.getUtcFormat(OsmParser.TIMESTAMP_FORMAT).format(secsSinceUnixEpoch * 1000L);
+        timestamp = DateFormatter.getUtcFormat(OsmParser.TIMESTAMP_FORMAT).format(secsSinceUnixEpoch * 1000L)
+                .replace("T", " ")
+                .replace("Z", "");
     }
 
     /**
