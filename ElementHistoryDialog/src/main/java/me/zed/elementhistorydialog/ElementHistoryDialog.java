@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,7 @@ public class ElementHistoryDialog extends DialogFragment {
     private long osmId;
     private String elementType;
     private OsmParser osmParser;
+    private int positionA = -1, positionB = -1;
     RecyclerView versionList;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
@@ -88,6 +90,22 @@ public class ElementHistoryDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fetchHistoryData();
+        View c = view.findViewById(R.id.compare);
+        View e = view.findViewById(R.id.exit);
+
+        c.setOnClickListener(v -> {
+            if (positionA == -1 || positionB == -1) {
+                Toast.makeText(requireContext(), "Select version A & B for comparison", Toast.LENGTH_SHORT).show();
+            } else {
+                //navigate to comparison screen
+            }
+        });
+
+        e.setOnClickListener(v -> {
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+        });
     }
 
     private void addToList(Context ctx) {
@@ -111,7 +129,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                Log.e("1.", "testA" + position);
+                positionA = position;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
@@ -130,7 +148,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                Log.e("1.", "testB" + position);
+                positionB = position;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
@@ -148,7 +166,6 @@ public class ElementHistoryDialog extends DialogFragment {
                     InputStream is = null;
                     try {
                         is = openConnection(getActivity(), url);
-                        //return is;
                     } catch (IOException e) {
                         Log.e(DEBUG_TAG, e.getMessage());
                     }
