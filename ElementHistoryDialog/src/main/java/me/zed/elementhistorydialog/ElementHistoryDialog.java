@@ -108,6 +108,7 @@ public class ElementHistoryDialog extends DialogFragment {
 
     /**
      * Initialize the versionList RecyclerView with initial data
+     *
      * @param ctx android context
      */
     private void addToList(Context ctx) {
@@ -143,7 +144,7 @@ public class ElementHistoryDialog extends DialogFragment {
     }
 
     /**
-     *  OnCheckChangeListener for column B in the versionList i.e the 2nd element for the comparison
+     * OnCheckChangeListener for column B in the versionList i.e the 2nd element for the comparison
      */
     private class BOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
         final List<OsmElement> ids;
