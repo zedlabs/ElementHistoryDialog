@@ -37,10 +37,14 @@ import okhttp3.Response;
 
 public class ElementHistoryDialog extends DialogFragment {
 
+    //data associated with the selected OSM element
     private long osmId;
     private String elementType;
     private OsmParser osmParser;
+
+    //selections to pass to the comparison screen
     private int positionA = -1, positionB = -1;
+
     RecyclerView versionList;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
@@ -59,12 +63,6 @@ public class ElementHistoryDialog extends DialogFragment {
         this.osmId = osmId;
         this.elementType = elementType;
         osmParser = new OsmParser();
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return super.onCreateDialog(savedInstanceState);
     }
 
 
@@ -108,6 +106,10 @@ public class ElementHistoryDialog extends DialogFragment {
         });
     }
 
+    /**
+     * Initialize the versionList RecyclerView with initial data
+     * @param ctx android context
+     */
     private void addToList(Context ctx) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
         versionList.setLayoutManager(layoutManager);
@@ -118,6 +120,9 @@ public class ElementHistoryDialog extends DialogFragment {
         versionList.setAdapter(adapter);
     }
 
+    /**
+     * OnCheckChangeListener for column A in the versionList i.e the 1st element for the comparison
+     */
     private class AOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
         final List<OsmElement> ids;
 
@@ -137,6 +142,9 @@ public class ElementHistoryDialog extends DialogFragment {
         }
     }
 
+    /**
+     *  OnCheckChangeListener for column B in the versionList i.e the 2nd element for the comparison
+     */
     private class BOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
         final List<OsmElement> ids;
 
@@ -156,6 +164,10 @@ public class ElementHistoryDialog extends DialogFragment {
         }
     }
 
+    /**
+     * Function to fetch the element history data through the '/history' endpoint
+     * on the background thread and post the result back on the main thread
+     */
     void fetchHistoryData() {
         URL url = Util.getElementHistoryUrl(osmId, elementType);
         try {
