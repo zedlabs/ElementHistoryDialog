@@ -28,7 +28,6 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import me.zed.elementhistorydialog.elements.Node;
 import me.zed.elementhistorydialog.elements.OsmElement;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -96,6 +95,9 @@ public class ElementHistoryDialog extends DialogFragment {
                 Toast.makeText(requireContext(), "Select version A & B for comparison", Toast.LENGTH_SHORT).show();
             } else {
                 //navigate to comparison screen
+                getFragmentManager().beginTransaction()
+                        .add(new ComparisonScreen(), null)
+                        .commit();
             }
         });
 
