@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version">Version #</string>
+    <string name="created_on">Created on: </string>
+    <string name="user">User: </string>
+    <string name="changeset">Changeset: </string>
+    <string name="source">Source: </string>
+    <string name="imagery">Imagery: </string>
+</resources>
