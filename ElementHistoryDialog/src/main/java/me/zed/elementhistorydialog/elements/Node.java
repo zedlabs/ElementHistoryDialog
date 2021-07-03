@@ -38,8 +38,8 @@ public class Node extends OsmElement {
      * @param lat        WGS84 decimal Latitude-Coordinate times 1E7.
      * @param lon        WGS84 decimal Longitude-Coordinate times 1E7.
      */
-    public Node(final long osmId, final long osmVersion, final String userName, final long timestamp, final int lat, final int lon) {
-        super(osmId, osmVersion, userName, timestamp);
+    public Node(final long osmId, final long osmVersion, final String userName, final long changeset, final long timestamp, final int lat, final int lon) {
+        super(osmId, osmVersion, userName, changeset, timestamp);
         this.lat = lat;
         this.lon = lon;
     }

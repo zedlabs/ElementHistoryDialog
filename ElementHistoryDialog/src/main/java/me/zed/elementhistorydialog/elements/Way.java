@@ -31,8 +31,8 @@ public class Way extends OsmElement {
      * @param osmId      the OSM id
      * @param osmVersion the version
      */
-    public Way(final long osmId, final long osmVersion, final String userName, final long timestamp) {
-        super(osmId, osmVersion, userName, timestamp);
+    public Way(final long osmId, final long osmVersion, final String userName, long changeset, final long timestamp) {
+        super(osmId, osmVersion, userName, changeset, timestamp);
         wayNodes = new ArrayList<>();
     }
 

@@ -194,6 +194,7 @@ public class OsmParser extends DefaultHandler {
             String version = atts.getValue(OsmElement.VERSION_ATTR);
             long osmVersion = version == null ? 0 : Long.parseLong(version); // hack for JOSM file
             String username = atts.getValue(OsmElement.USER_ATTR);
+            long changeset = Long.parseLong(atts.getValue(OsmElement.CHANGESET_ATTR));
 
             String timestampStr = atts.getValue(OsmElement.TIMESTAMP_ATTR);
             long timestamp = -1L;
@@ -212,13 +213,13 @@ public class OsmParser extends DefaultHandler {
                         lat = (new BigDecimal(atts.getValue(Node.LAT)).scaleByPowerOfTen(Node.COORDINATE_SCALE)).intValue();
                         lon = (new BigDecimal(atts.getValue(Node.LON)).scaleByPowerOfTen(Node.COORDINATE_SCALE)).intValue();
                     }
-                    currentNode = OsmElementFactory.createNode(osmId, osmVersion, username, timestamp, lat, lon);
+                    currentNode = OsmElementFactory.createNode(osmId, osmVersion, username, changeset, timestamp, lat, lon);
                     break;
                 case Way.NAME:
-                    currentWay = OsmElementFactory.createWay(osmId, osmVersion, username, timestamp);
+                    currentWay = OsmElementFactory.createWay(osmId, osmVersion, username, changeset, timestamp);
                     break;
                 case Relation.NAME:
-                    currentRelation = OsmElementFactory.createRelation(osmId, osmVersion, username, timestamp);
+                    currentRelation = OsmElementFactory.createRelation(osmId, osmVersion, username, changeset, timestamp);
                     break;
                 default:
                     throw new OsmParseException("Unknown element " + name);

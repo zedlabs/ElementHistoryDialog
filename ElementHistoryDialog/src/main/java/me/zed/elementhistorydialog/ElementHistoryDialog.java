@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
@@ -33,6 +35,8 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static me.zed.elementhistorydialog.Util.openConnection;
 
 public class ElementHistoryDialog extends DialogFragment {
 
@@ -95,8 +99,19 @@ public class ElementHistoryDialog extends DialogFragment {
                 Toast.makeText(requireContext(), "Select version A & B for comparison", Toast.LENGTH_SHORT).show();
             } else {
                 //navigate to comparison screen
+                ComparisonScreen cs = new ComparisonScreen();
+                Bundle b = new Bundle();
+
+                OsmElement elementA = osmParser.getStorage().getElementWithVersion(positionA);
+                OsmElement elementB = osmParser.getStorage().getElementWithVersion(positionB);
+
+                b.putSerializable("DataA", elementA);
+                b.putSerializable("DataB", elementB);
+
+                cs.setArguments(b);
+
                 getFragmentManager().beginTransaction()
-                        .add(new ComparisonScreen(), null)
+                        .add(cs, null)
                         .commit();
             }
         });
@@ -137,7 +152,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                positionA = position;
+                positionA = position + 1;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
@@ -159,7 +174,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                positionB = position;
+                positionB = position + 1;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
@@ -210,35 +225,4 @@ public class ElementHistoryDialog extends DialogFragment {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Given an URL, open the connection and return the InputStream
-     *
-     * @param context Android context
-     * @param url     the URL
-     * @return the InputStream
-     * @throws IOException on any IO and other error
-     */
-    @NonNull
-    public static InputStream openConnection(@Nullable final Context context, @NonNull URL url) throws IOException {
-        Log.d(DEBUG_TAG, "get history data for  " + url.toString());
-        try {
-            Request request = new Request.Builder().url(url).build();
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
-            OkHttpClient client = builder.build();
-            Call readCall = client.newCall(request);
-            Response readCallResponse = readCall.execute();
-
-            if (readCallResponse.isSuccessful()) {
-                return readCallResponse.body().byteStream();
-            } else {
-                ((Activity) context).runOnUiThread(() -> Util.makeToast(context, readCallResponse.message()));
-            }
-        } catch (IllegalArgumentException iaex) {
-            throw new IOException("Illegal argument", iaex);
-        }
-        throw new IOException("openConnection this can't happen");
-    }
-
 }

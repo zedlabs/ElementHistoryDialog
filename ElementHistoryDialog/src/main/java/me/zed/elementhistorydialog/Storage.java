@@ -75,15 +75,24 @@ public class Storage {
 
     /**
      * add all the OSM elements, although they will be of single type
+     *
      * @return all elements in Storage
      */
-    public List<OsmElement> getAll(){
+    public List<OsmElement> getAll() {
         List<OsmElement> e = new ArrayList<>();
         e.addAll(getNodeList());
         e.addAll(getWayList());
         e.addAll(getRelationList());
         return e;
     }
+
+    public OsmElement getElementWithVersion(long version) {
+        for (OsmElement e : getAll()) {
+            if (e.osmVersion == version) return e;
+        }
+        return null;
+    }
+
     /**
      * Insert an element in to storage regardless of it is already present or not
      *

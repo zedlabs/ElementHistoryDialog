@@ -1,8 +1,11 @@
 package me.zed.elementhistorydialog.elements;
 
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
@@ -14,17 +17,20 @@ import me.zed.elementhistorydialog.OsmParser;
 /**
  * Base Class for all OSM elements
  */
-public abstract class OsmElement {
+public abstract class OsmElement implements Serializable {
 
     public static final String ID_ATTR = "id";
     public static final String VERSION_ATTR = "version";
     public static final String USER_ATTR = "user";
+    public static final String CHANGESET_ATTR = "changeset";
     public static final String TIMESTAMP_ATTR = "timestamp";
 
     public static final String TAG = "tag";
-
+    public static final String TAG_KEY_ATTR = "k";
+    public static final String TAG_VALUE_ATTR = "v";
     public long osmId;
     public long osmVersion;
+    public long changeset;
     public String username;
     public String timestamp;
 
@@ -36,10 +42,11 @@ public abstract class OsmElement {
      * @param osmId      the id
      * @param osmVersion version
      */
-    OsmElement(final long osmId, final long osmVersion, final String userName, final long timestamp) {
+    OsmElement(final long osmId, final long osmVersion, final String userName, final long changeset, final long timestamp) {
         this.osmId = osmId;
         this.osmVersion = osmVersion;
         this.username = userName;
+        this.changeset = changeset;
         setTimestamp(timestamp);
         this.tags = new TreeMap<String, String>();
     }
