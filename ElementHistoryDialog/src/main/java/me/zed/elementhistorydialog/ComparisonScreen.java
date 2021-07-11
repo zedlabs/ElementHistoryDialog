@@ -1,8 +1,10 @@
 package me.zed.elementhistorydialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,6 @@ public class ComparisonScreen extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.comparison_screen, null);
-
         return parent;
     }
 
@@ -93,12 +94,12 @@ public class ComparisonScreen extends DialogFragment {
         changesetA.setText(String.valueOf(elementA.changeset));
         changesetB.setText(String.valueOf(elementB.changeset));
 
-        TableLayout tl1 = llA.findViewById(R.id.tag_table);
-        TableRow tr = new TableRow(getActivity());
-        TextView tv1 = new TextView(getActivity());
+        TableLayout tl = view.findViewById(R.id.tag_table);
+        tl.setStretchAllColumns(true);
 
-        tr.addView(tv1);
-        tl1.addView(tr);
+        addTableHeading(tl);
+        addTagTable(tl, elementA.tags, elementB.tags);
+
 
         try {
             xmlParserFactory = XmlPullParserFactory.newInstance();
@@ -108,6 +109,76 @@ public class ComparisonScreen extends DialogFragment {
         fetchChangeset(elementA.changeset, versionA);
         fetchChangeset(elementB.changeset, versionB);
 
+    }
+
+    void addTableHeading(TableLayout tl) {
+        TableRow tr = new TableRow(getActivity());
+        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+        TextView tv1 = new TextView(getActivity());
+        TextView tv2 = new TextView(getActivity());
+        TextView tv3 = new TextView(getActivity());
+
+        tv1.setText("KEY");
+        tv2.setText("A");
+        tv3.setText("B");
+        tr.addView(tv1);
+        tr.addView(tv2);
+        tr.addView(tv3);
+        tl.addView(tr);
+
+    }
+
+    void addTagTable(TableLayout tl, Map<String, String> tagsA, Map<String, String> tagsB) {
+        for (Map.Entry<String, String> s : tagsA.entrySet()) {
+            if (tagsB.containsKey(s.getKey())) {
+                //b also contains - add without bg color - also need to check value change here
+                Log.e("1.", "test: ~~~ " + s.getKey() + " -- " + s.getValue());
+                tl.addView(addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey())));
+
+            } else {
+                //b does not contain - add with red color
+                Log.e("2.", "test: --- " + s.getKey() + " -- " + s.getValue());
+                tl.addView(addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey())));
+            }
+        }
+        for (Map.Entry<String, String> s : tagsB.entrySet()) {
+            if (!tagsA.containsKey(s.getKey())) {
+                //b contains a does not - add with green color
+                Log.e("3.", "test: +++ " + s.getKey() + " -- " + s.getValue());
+            }
+        }
+    }
+
+    TableRow addTableRow(Context ctx, String keyValue, String aValue, String bValue){
+
+        TableRow tr = new TableRow(getActivity());
+        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+        TextView keyText = new TextView(ctx);
+        TextView valueATextView = new TextView(ctx);
+        TextView valueBTextView = new TextView(ctx);
+
+        keyText.setMaxEms(7);
+        keyText.setSingleLine(true);
+        keyText.setEllipsize(TextUtils.TruncateAt.END);
+        keyText.setText(keyValue);
+
+        valueATextView.setMaxEms(9);
+        valueATextView.setSingleLine(true);
+        valueATextView.setEllipsize(TextUtils.TruncateAt.END);
+        valueATextView.setText(aValue);
+
+        valueBTextView.setMaxEms(9);
+        valueBTextView.setSingleLine(true);
+        valueBTextView.setEllipsize(TextUtils.TruncateAt.END);
+        valueBTextView.setText(bValue);
+
+        tr.addView(keyText);
+        tr.addView(valueATextView);
+        tr.addView(valueBTextView);
+
+        return tr;
     }
 
     /**
