@@ -33,9 +33,9 @@ public class StorageTest {
      */
     @Test
     public void insertElementTest() {
-        Node n = new Node(1, 1, 0, 0);
-        Way w = new Way(2, 1);
-        Relation r = new Relation(3, 1);
+        Node n = new Node(1, 1, "", 0, 0, 0, 0);
+        Way w = new Way(2, 1, "", 0, 0);
+        Relation r = new Relation(3, 1, "", 0, 0);
 
         storage.insertElementUnsafe(n);
         storage.insertElementUnsafe(w);

@@ -19,7 +19,7 @@ public class RelationTest {
         RelationMember rm2 = new RelationMember(OsmElement.ElementType.NODE.toString(), 2, "inner");
         RelationMember rm3 = new RelationMember(OsmElement.ElementType.RELATION.toString(), 3, "outer");
 
-        Relation r = new Relation(1, 1);
+        Relation r = new Relation(1, 1, "", 123, 111);
         r.addMember(rm1);
         r.addMember(rm2);
         r.addMember(rm3);
@@ -33,7 +33,7 @@ public class RelationTest {
      */
     @Test
     public void getTypeTest(){
-        Relation r = new Relation(1, 1);
+        Relation r = new Relation(1, 1, "", 123, 111);
         TreeMap<String, String> tags = new TreeMap<>();
         tags.put(KEY_TYPE, "");
         assertEquals(r.getType(tags), OsmElement.ElementType.RELATION);
