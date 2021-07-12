@@ -21,6 +21,7 @@
             android:id="@+id/version_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             tools:text="1" />
 
         <TextView
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:text="@string/created_on" />
 
         <TextView
@@ -49,12 +51,14 @@
             android:id="@+id/user_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:text="@string/user" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="italic"
             tools:text="Zedlabs" />
 
     </LinearLayout>
@@ -69,33 +73,39 @@
             android:id="@+id/changeset_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:text="@string/changeset" />
 
         <TextView
             android:id="@+id/changeset_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             tools:text="34343" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/description"
-        android:padding="8dp"
+        android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:visibility="gone"
         tools:text="added new building" />
 
     <LinearLayout
+        android:id="@+id/source_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/source_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:text="@string/source" />
 
         <TextView
@@ -107,15 +117,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/imagery_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/imagery_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
             android:text="@string/imagery" />
 
         <TextView

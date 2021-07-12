@@ -12,14 +12,23 @@
             android:id="@+id/version_A"
             layout="@layout/element_details" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
         <include
             android:id="@+id/version_B"
             layout="@layout/element_details" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <TableLayout
                 android:id="@+id/tag_table"

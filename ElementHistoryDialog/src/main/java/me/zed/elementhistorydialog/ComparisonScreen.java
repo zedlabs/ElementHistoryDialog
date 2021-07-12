@@ -134,23 +134,30 @@ public class ComparisonScreen extends DialogFragment {
             if (tagsB.containsKey(s.getKey())) {
                 //b also contains - add without bg color - also need to check value change here
                 Log.e("1.", "test: ~~~ " + s.getKey() + " -- " + s.getValue());
-                tl.addView(addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey())));
+                TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey()));
+                //tr.setBackgroundColor(getResources().getColor(R.color.));
+                tl.addView(tr);
 
             } else {
                 //b does not contain - add with red color
                 Log.e("2.", "test: --- " + s.getKey() + " -- " + s.getValue());
-                tl.addView(addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey())));
+                TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), "");
+                tr.setBackgroundColor(getResources().getColor(R.color.color_table_deletion));
+                tl.addView(tr);
             }
         }
         for (Map.Entry<String, String> s : tagsB.entrySet()) {
             if (!tagsA.containsKey(s.getKey())) {
                 //b contains a does not - add with green color
                 Log.e("3.", "test: +++ " + s.getKey() + " -- " + s.getValue());
+                TableRow tr = addTableRow(getActivity(), s.getKey(), "", s.getValue());
+                tr.setBackgroundColor(getResources().getColor(R.color.color_table_addition));
+                tl.addView(tr);
             }
         }
     }
 
-    TableRow addTableRow(Context ctx, String keyValue, String aValue, String bValue){
+    TableRow addTableRow(Context ctx, String keyValue, String aValue, String bValue) {
 
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
@@ -239,7 +246,9 @@ public class ComparisonScreen extends DialogFragment {
             result = resultB;
         }
 
-        TextView description = ll.findViewById(R.id.description);
+        TextView description = ll.findViewById(R.id.description_text);
+        LinearLayout sourceParent = ll.findViewById(R.id.source_parent);
+        LinearLayout imageryParent = ll.findViewById(R.id.imagery_parent);
         TextView source = ll.findViewById(R.id.source);
         TextView imagery = ll.findViewById(R.id.imagery);
 
@@ -248,12 +257,15 @@ public class ComparisonScreen extends DialogFragment {
                 switch (s.getKey()) {
                     case KEY_COMMENT:
                         description.setText(s.getValue());
+                        description.setVisibility(View.VISIBLE);
                         break;
                     case KEY_SOURCE:
                         source.setText(s.getValue());
+                        sourceParent.setVisibility(View.VISIBLE);
                         break;
                     case KEY_IMAGERY_USED:
                         imagery.setText(s.getValue());
+                        imageryParent.setVisibility(View.VISIBLE);
                         break;
                     default:
                         //nothing
