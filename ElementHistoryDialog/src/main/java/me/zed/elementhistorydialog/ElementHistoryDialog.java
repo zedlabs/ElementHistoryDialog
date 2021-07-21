@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +51,8 @@ public class ElementHistoryDialog extends DialogFragment {
     private int positionA = -1, positionB = -1;
 
     RecyclerView versionList;
+    ProgressBar progressBar;
+    RelativeLayout parentLayout;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
     /**
@@ -84,6 +88,9 @@ public class ElementHistoryDialog extends DialogFragment {
 
         View parent = inflater.inflate(R.layout.edit_selection_screen, null);
         versionList = (RecyclerView) parent.findViewById(R.id.itemVersionList);
+        progressBar = parent.findViewById(R.id.editSelectionProgressBar);
+        parentLayout = parent.findViewById(R.id.editSelectionParent);
+
         return parent;
     }
 
@@ -217,6 +224,8 @@ public class ElementHistoryDialog extends DialogFragment {
                         //handle failed case
                     } else {
                         //add data to the rows
+                        if(progressBar != null) progressBar.setVisibility(View.GONE);
+                        parentLayout.setVisibility(View.VISIBLE);
                         addToList(requireContext());
                     }
                 }
