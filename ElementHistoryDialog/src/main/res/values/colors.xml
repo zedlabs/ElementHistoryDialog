@@ -3,4 +3,5 @@
     <color name="color_table_addition">#91EA8E</color>
     <color name="color_table_deletion">#FB6565</color>
     <color name="color_table_change">#FFBFCC</color>
+    <color name="white">#FBFBFB</color>
 </resources>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -47,6 +48,7 @@ public class ComparisonScreen extends DialogFragment {
 
     LinearLayout llA;
     LinearLayout llB;
+    ImageButton backButton;
     Changeset resultA = null, resultB = null;
 
     @Override
@@ -75,6 +77,13 @@ public class ComparisonScreen extends DialogFragment {
 
         llA = view.findViewById(R.id.version_A);
         llB = view.findViewById(R.id.version_B);
+        backButton = view.findViewById(R.id.back_button_comparison);
+
+        backButton.setOnClickListener(v -> {
+            if (getDialog() != null) {
+                getDialog().onBackPressed();
+            }
+        });
 
         TextView versionATextView = llA.findViewById(R.id.version_number);
         TextView versionBTextView = llB.findViewById(R.id.version_number);
