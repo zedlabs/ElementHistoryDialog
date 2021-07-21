@@ -113,9 +113,10 @@ public class ComparisonScreen extends DialogFragment {
         TableLayout tl = view.findViewById(R.id.tag_table);
         tl.setStretchAllColumns(true);
 
-        addTableHeading(tl);
-        addTagTable(tl, elementA.tags, elementB.tags);
-
+        if(!elementA.tags.isEmpty() && !elementB.tags.isEmpty()){
+            addTableHeading(tl);
+            addTagTable(tl, elementA.tags, elementB.tags);
+        }
 
         try {
             xmlParserFactory = XmlPullParserFactory.newInstance();
