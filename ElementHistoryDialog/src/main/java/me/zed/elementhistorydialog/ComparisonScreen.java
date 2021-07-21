@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -49,6 +51,9 @@ public class ComparisonScreen extends DialogFragment {
     LinearLayout llA;
     LinearLayout llB;
     ImageButton backButton;
+    ScrollView parent;
+    ProgressBar progressBar;
+
     Changeset resultA = null, resultB = null;
 
     @Override
@@ -78,6 +83,8 @@ public class ComparisonScreen extends DialogFragment {
         llA = view.findViewById(R.id.version_A);
         llB = view.findViewById(R.id.version_B);
         backButton = view.findViewById(R.id.back_button_comparison);
+        parent = view.findViewById(R.id.comparisonParent);
+        progressBar = view.findViewById(R.id.comparisonProgressBar);
 
         backButton.setOnClickListener(v -> {
             if (getDialog() != null) {
@@ -280,6 +287,10 @@ public class ComparisonScreen extends DialogFragment {
                         //nothing
                 }
             }
+        }
+        if(version.equals(versionB)){
+            progressBar.setVisibility(View.GONE);
+            parent.setVisibility(View.VISIBLE);
         }
 
     }
