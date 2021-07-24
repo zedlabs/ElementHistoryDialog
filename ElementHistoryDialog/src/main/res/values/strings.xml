@@ -6,4 +6,11 @@
     <string name="changeset">Changeset: </string>
     <string name="source">Source: </string>
     <string name="imagery">Imagery: </string>
+    <string name="version_text">Ver</string>
+    <string name="version_a">A</string>
+    <string name="version_b">B</string>
+    <string name="user_text">User</string>
+    <string name="date_text">Date</string>
+    <string name="compare_text">Compare</string>
+    <string name="exit_text">Exit</string>
 </resources>
