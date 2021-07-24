@@ -2,6 +2,7 @@ package me.zed.elementhistorydialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -139,6 +140,11 @@ public class ComparisonScreen extends DialogFragment {
         tv1.setText("KEY");
         tv2.setText("A");
         tv3.setText("B");
+
+        tv1.setTypeface(null, Typeface.BOLD);
+        tv2.setTypeface(null, Typeface.BOLD);
+        tv3.setTypeface(null, Typeface.BOLD);
+
         tr.addView(tv1);
         tr.addView(tv2);
         tr.addView(tv3);
