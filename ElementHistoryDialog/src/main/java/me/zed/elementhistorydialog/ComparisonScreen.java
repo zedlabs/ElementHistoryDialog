@@ -152,7 +152,9 @@ public class ComparisonScreen extends DialogFragment {
                 //b also contains - add without bg color - also need to check value change here
                 Log.e("1.", "test: ~~~ " + s.getKey() + " -- " + s.getValue());
                 TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey()));
-                //tr.setBackgroundColor(getResources().getColor(R.color.));
+                if(!s.getValue().equals(tagsB.get(s.getKey()))){
+                    tr.setBackgroundColor(getResources().getColor(R.color.color_table_change));
+                }
                 tl.addView(tr);
 
             } else {
