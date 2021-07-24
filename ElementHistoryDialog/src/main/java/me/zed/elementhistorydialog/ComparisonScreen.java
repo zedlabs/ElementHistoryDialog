@@ -30,7 +30,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
+import me.zed.elementhistorydialog.elements.Node;
 import me.zed.elementhistorydialog.elements.OsmElement;
+import me.zed.elementhistorydialog.elements.Relation;
+import me.zed.elementhistorydialog.elements.Way;
 
 import static me.zed.elementhistorydialog.Changeset.KEY_COMMENT;
 import static me.zed.elementhistorydialog.Changeset.KEY_IMAGERY_USED;
@@ -81,6 +84,57 @@ public class ComparisonScreen extends DialogFragment {
         OsmElement elementA = (OsmElement) args.getSerializable("DataA");
         OsmElement elementB = (OsmElement) args.getSerializable("DataB");
 
+        initUi(view, elementA, elementB);
+
+        switch (elementA.getType()) {
+            case NODE:
+                displayNodeData();
+                break;
+            case WAY:
+                displayWayData();
+                break;
+            case RELATION:
+                displayRelationData();
+        }
+
+        try {
+            xmlParserFactory = XmlPullParserFactory.newInstance();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+        fetchChangeset(elementA.changeset, versionA);
+        fetchChangeset(elementB.changeset, versionB);
+
+    }
+
+    /**
+     * Displays relation members with roles for both versions if the elementType is {@link Relation}
+     */
+    private void displayRelationData() {
+
+    }
+
+    /**
+     * Displays node list for both the versions if the selected element is of the type {@link Way}
+     */
+    private void displayWayData() {
+    }
+
+    /**
+     * Displays the node data for both the nodes if the selected element type is {@link Node}
+     */
+    private void displayNodeData() {
+    }
+
+    /**
+     * Display the common UI elements for all the Element Types
+     *
+     * @param view     parent View
+     * @param elementA Selected OSM element A
+     * @param elementB Selected OSM element B
+     */
+    void initUi(View view, OsmElement elementA, OsmElement elementB) {
         llA = view.findViewById(R.id.version_A);
         llB = view.findViewById(R.id.version_B);
         backButton = view.findViewById(R.id.back_button_comparison);
@@ -114,19 +168,10 @@ public class ComparisonScreen extends DialogFragment {
         TableLayout tl = view.findViewById(R.id.tag_table);
         tl.setStretchAllColumns(true);
 
-        if(!elementA.tags.isEmpty() || !elementB.tags.isEmpty()){
+        if (!elementA.tags.isEmpty() || !elementB.tags.isEmpty()) {
             addTableHeading(tl);
             addTagTable(tl, elementA.tags, elementB.tags);
         }
-
-        try {
-            xmlParserFactory = XmlPullParserFactory.newInstance();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-        fetchChangeset(elementA.changeset, versionA);
-        fetchChangeset(elementB.changeset, versionB);
-
     }
 
     void addTableHeading(TableLayout tl) {
@@ -138,8 +183,8 @@ public class ComparisonScreen extends DialogFragment {
         TextView tv3 = new TextView(getActivity());
 
         tv1.setText("KEY");
-        tv2.setText("A");
-        tv3.setText("B");
+        tv2.setText(getString(R.string.version_a));
+        tv3.setText(getString(R.string.version_b));
 
         tv1.setTypeface(null, Typeface.BOLD);
         tv2.setTypeface(null, Typeface.BOLD);
@@ -152,20 +197,25 @@ public class ComparisonScreen extends DialogFragment {
 
     }
 
+    /**
+     * Displays a table to visualize the changes between the tags in the different versions
+     *
+     * @param tl    parent table layout
+     * @param tagsA tag list for element A
+     * @param tagsB tag list for element B
+     */
     void addTagTable(TableLayout tl, Map<String, String> tagsA, Map<String, String> tagsB) {
         for (Map.Entry<String, String> s : tagsA.entrySet()) {
             if (tagsB.containsKey(s.getKey())) {
-                //b also contains - add without bg color - also need to check value change here
-                Log.e("1.", "test: ~~~ " + s.getKey() + " -- " + s.getValue());
+                //b also contains - add without bg color, add with change color for value change
                 TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey()));
-                if(!s.getValue().equals(tagsB.get(s.getKey()))){
+                if (!s.getValue().equals(tagsB.get(s.getKey()))) {
                     tr.setBackgroundColor(getResources().getColor(R.color.color_table_change));
                 }
                 tl.addView(tr);
 
             } else {
-                //b does not contain - add with red color
-                Log.e("2.", "test: --- " + s.getKey() + " -- " + s.getValue());
+                //b does not contain - add with red colo
                 TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), "");
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_deletion));
                 tl.addView(tr);
@@ -174,7 +224,6 @@ public class ComparisonScreen extends DialogFragment {
         for (Map.Entry<String, String> s : tagsB.entrySet()) {
             if (!tagsA.containsKey(s.getKey())) {
                 //b contains a does not - add with green color
-                Log.e("3.", "test: +++ " + s.getKey() + " -- " + s.getValue());
                 TableRow tr = addTableRow(getActivity(), s.getKey(), "", s.getValue());
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_addition));
                 tl.addView(tr);
@@ -262,6 +311,11 @@ public class ComparisonScreen extends DialogFragment {
         }
     }
 
+    /**
+     * Display the data fetched for a particular changeset
+     *
+     * @param version OSM element history version
+     */
     void displayChangeSetData(String version) {
 
         LinearLayout ll = llA;
@@ -297,7 +351,7 @@ public class ComparisonScreen extends DialogFragment {
                 }
             }
         }
-        if(version.equals(versionB)){
+        if (version.equals(versionB)) {
             progressBar.setVisibility(View.GONE);
             parent.setVisibility(View.VISIBLE);
         }
