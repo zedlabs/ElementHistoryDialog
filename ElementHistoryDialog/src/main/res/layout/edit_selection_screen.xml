@@ -12,10 +12,11 @@
         android:layout_gravity="center"
         android:indeterminate="true" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/editSelectionParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -83,15 +84,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemVersionList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/table_header"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:scrollbars="vertical" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -109,5 +109,5 @@
                 android:text="Exit" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </FrameLayout>

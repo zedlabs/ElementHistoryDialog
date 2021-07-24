@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -52,7 +53,7 @@ public class ElementHistoryDialog extends DialogFragment {
 
     RecyclerView versionList;
     ProgressBar progressBar;
-    RelativeLayout parentLayout;
+    LinearLayout parentLayout;
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
     /**
