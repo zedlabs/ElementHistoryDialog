@@ -87,9 +87,6 @@ public class Relation extends OsmElement {
 
     @Override
     public ElementType getType(Map<String, String> tags) {
-        if (hasTag(tags, KEY_TYPE, VALUE_MULTIPOLYGON) || hasTag(tags, KEY_TYPE, VALUE_BOUNDARY)) {
-            return ElementType.AREA;
-        }
         return ElementType.RELATION;
     }
 

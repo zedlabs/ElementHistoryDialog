@@ -1,7 +1,6 @@
 package me.zed.elementhistorydialog;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +34,7 @@ import java.util.Map;
 import me.zed.elementhistorydialog.elements.Node;
 import me.zed.elementhistorydialog.elements.OsmElement;
 import me.zed.elementhistorydialog.elements.Relation;
+import me.zed.elementhistorydialog.elements.RelationMember;
 import me.zed.elementhistorydialog.elements.Way;
 
 import static me.zed.elementhistorydialog.Changeset.KEY_COMMENT;
@@ -191,7 +191,7 @@ public class ComparisonScreen extends DialogFragment {
         for (Map.Entry<String, String> s : tagsA.entrySet()) {
             if (tagsB.containsKey(s.getKey())) {
                 //b also contains - add without bg color, add with change color for value change
-                TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), tagsB.get(s.getKey()));
+                TableRow tr = addTableRow(s.getKey(), s.getValue(), tagsB.get(s.getKey()));
                 if (!s.getValue().equals(tagsB.get(s.getKey()))) {
                     tr.setBackgroundColor(getResources().getColor(R.color.color_table_change));
                 }
@@ -199,7 +199,7 @@ public class ComparisonScreen extends DialogFragment {
 
             } else {
                 //b does not contain - add with red colo
-                TableRow tr = addTableRow(getActivity(), s.getKey(), s.getValue(), "");
+                TableRow tr = addTableRow(s.getKey(), s.getValue(), "");
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_deletion));
                 tl.addView(tr);
             }
@@ -207,40 +207,21 @@ public class ComparisonScreen extends DialogFragment {
         for (Map.Entry<String, String> s : tagsB.entrySet()) {
             if (!tagsA.containsKey(s.getKey())) {
                 //b contains a does not - add with green color
-                TableRow tr = addTableRow(getActivity(), s.getKey(), "", s.getValue());
+                TableRow tr = addTableRow(s.getKey(), "", s.getValue());
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_addition));
                 tl.addView(tr);
             }
         }
     }
 
-    TableRow addTableRow(Context ctx, String keyValue, String aValue, String bValue) {
+    TableRow addTableRow(String keyValue, String aValue, String bValue) {
 
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        TextView keyText = new TextView(ctx);
-        TextView valueATextView = new TextView(ctx);
-        TextView valueBTextView = new TextView(ctx);
-
-        keyText.setMaxEms(7);
-        keyText.setSingleLine(true);
-        keyText.setEllipsize(TextUtils.TruncateAt.END);
-        keyText.setText(keyValue);
-
-        valueATextView.setMaxEms(9);
-        valueATextView.setSingleLine(true);
-        valueATextView.setEllipsize(TextUtils.TruncateAt.END);
-        valueATextView.setText(aValue);
-
-        valueBTextView.setMaxEms(9);
-        valueBTextView.setSingleLine(true);
-        valueBTextView.setEllipsize(TextUtils.TruncateAt.END);
-        valueBTextView.setText(bValue);
-
-        tr.addView(keyText);
-        tr.addView(valueATextView);
-        tr.addView(valueBTextView);
+        tr.addView(getTextViewForTable(7, keyValue));
+        tr.addView(getTextViewForTable(9, aValue));
+        tr.addView(getTextViewForTable(9, bValue));
 
         return tr;
     }
@@ -250,7 +231,34 @@ public class ComparisonScreen extends DialogFragment {
      */
     private void displayRelationData(View view) {
         View parent = view.findViewById(R.id.relation_details_table);
+
+        TableLayout tl = parent.findViewById(R.id.relation_member_list_table);
+        tl.setStretchAllColumns(true);
+        tl.addView(getCustomTableRow(Arrays.asList("NO.", "ROLE", "OBJECT", "|","NO.", "ROLE", "OBJECT")));
+        List<RelationMember> membersA = ((Relation) elementA).getMembers();
+        List<RelationMember> membersB = ((Relation) elementB).getMembers();
+        addRelationTableRows(tl, membersA, membersB);
         parent.setVisibility(View.VISIBLE);
+    }
+
+    void addRelationTableRows(TableLayout tl, List<RelationMember> membersA, List<RelationMember> membersB) {
+
+        for (int i = 0; i < membersA.size(); i++) {
+            TableRow tr = new TableRow(getActivity());
+            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+            tr.addView(getTextViewForTable(1, String.valueOf(i)));
+            tr.addView(getTextViewForTable(5, membersA.get(i).getRole()));
+            tr.addView(getTextViewForTable(11, membersA.get(i).getType() + " " + membersA.get(i).getRef()));
+            tr.addView(getTextViewForTable(1, "|"));
+            //todo bug 25
+            tr.addView(getTextViewForTable(1, membersB.get(i) != null ? String.valueOf(i) : "-"));
+            tr.addView(getTextViewForTable(5, membersB.get(i) != null ? membersB.get(i).getRole() : "-"));
+            tr.addView(getTextViewForTable(11,  membersB.get(i) != null ? membersB.get(i).getType() + " " + membersB.get(i).getRef() : "-"));
+
+            tl.addView(tr);
+        }
+
     }
 
     /**
@@ -266,8 +274,24 @@ public class ComparisonScreen extends DialogFragment {
         List<String> nodesA = ((Way) elementA).getWayNodes();
         List<String> nodesB = ((Way) elementB).getWayNodes();
 
-        addWayTableRow(tl, nodesA, nodesB);
+        addWayTableRows(tl, nodesA, nodesB);
         parent.setVisibility(View.VISIBLE);
+    }
+
+    void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
+
+        for (int i = 0; i < a.size(); i++) {
+            TableRow tr = new TableRow(getActivity());
+            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+            tr.addView(getTextViewForTable(3, String.valueOf(i)));
+            tr.addView(getTextViewForTable(9, a.get(i)));
+            tr.addView(getTextViewForTable(3, b.get(i) != null ? String.valueOf(i) : "-"));
+            tr.addView(getTextViewForTable(9, b.get(i) != null ? b.get(i) : "-"));
+
+            tl.addView(tr);
+        }
+
     }
 
     /**
@@ -306,52 +330,20 @@ public class ComparisonScreen extends DialogFragment {
 
     }
 
-    void addWayTableRow(TableLayout tl, List<String> a, List<String> b){
-
-        for(int i = 0; i < a.size(); i++){
-            TableRow tr = new TableRow(getActivity());
-            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-
-            TextView numberA = new TextView(getActivity());
-            TextView valueATextView = new TextView(getActivity());
-            TextView numberB = new TextView(getActivity());
-            TextView valueBTextView = new TextView(getActivity());
-
-            numberA.setMaxEms(3);
-            numberA.setSingleLine(true);
-            numberA.setEllipsize(TextUtils.TruncateAt.END);
-            numberA.setText(String.valueOf(i));
-
-            valueATextView.setMaxEms(9);
-            valueATextView.setSingleLine(true);
-            valueATextView.setEllipsize(TextUtils.TruncateAt.END);
-            valueATextView.setText(a.get(i));
-
-            numberB.setMaxEms(3);
-            numberB.setSingleLine(true);
-            numberB.setEllipsize(TextUtils.TruncateAt.END);
-            numberB.setText(b.get(i) != null ? String.valueOf(i) : "-");
-
-            valueBTextView.setMaxEms(9);
-            valueBTextView.setSingleLine(true);
-            valueBTextView.setEllipsize(TextUtils.TruncateAt.END);
-            valueBTextView.setText(b.get(i) != null ? b.get(i) : "-");
-
-            tr.addView(numberA);
-            tr.addView(valueATextView);
-            tr.addView(numberB);
-            tr.addView(valueBTextView);
-
-            tl.addView(tr);
-        }
-
+    private TextView getTextViewForTable(int ems, String text) {
+        TextView tv = new TextView(getActivity());
+        tv.setMaxEms(ems);
+        tv.setSingleLine(true);
+        tv.setEllipsize(TextUtils.TruncateAt.END);
+        tv.setText(text);
+        return tv;
     }
 
     TableRow getCustomTableRow(List<String> headings) {
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        for(String heading : headings){
+        for (String heading : headings) {
             TextView tv1 = new TextView(getActivity());
             tv1.setText(heading);
             tv1.setTypeface(null, Typeface.BOLD);
