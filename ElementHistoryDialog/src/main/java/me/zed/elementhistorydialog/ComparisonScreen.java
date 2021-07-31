@@ -28,6 +28,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import me.zed.elementhistorydialog.elements.Node;
@@ -247,16 +249,25 @@ public class ComparisonScreen extends DialogFragment {
      * Displays relation members with roles for both versions if the elementType is {@link Relation}
      */
     private void displayRelationData(View view) {
-        LinearLayout ll = view.findViewById(R.id.relation_details_table);
-        ll.setVisibility(View.VISIBLE);
+        View parent = view.findViewById(R.id.relation_details_table);
+        parent.setVisibility(View.VISIBLE);
     }
 
     /**
      * Displays node list for both the versions if the selected element is of the type {@link Way}
      */
     private void displayWayData(View view) {
-        LinearLayout ll = view.findViewById(R.id.way_details_table);
-        ll.setVisibility(View.VISIBLE);
+        View parent = view.findViewById(R.id.way_details_table);
+
+        TableLayout tl = parent.findViewById(R.id.node_list_table);
+        tl.setStretchAllColumns(true);
+        tl.addView(getCustomTableRow(Arrays.asList("NO.", "NODES", "NO.", "NODES")));
+
+        List<String> nodesA = ((Way) elementA).getWayNodes();
+        List<String> nodesB = ((Way) elementB).getWayNodes();
+
+        addWayTableRow(tl, nodesA, nodesB);
+        parent.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -293,6 +304,60 @@ public class ComparisonScreen extends DialogFragment {
             ll.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    void addWayTableRow(TableLayout tl, List<String> a, List<String> b){
+
+        for(int i = 0; i < a.size(); i++){
+            TableRow tr = new TableRow(getActivity());
+            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+            TextView numberA = new TextView(getActivity());
+            TextView valueATextView = new TextView(getActivity());
+            TextView numberB = new TextView(getActivity());
+            TextView valueBTextView = new TextView(getActivity());
+
+            numberA.setMaxEms(3);
+            numberA.setSingleLine(true);
+            numberA.setEllipsize(TextUtils.TruncateAt.END);
+            numberA.setText(String.valueOf(i));
+
+            valueATextView.setMaxEms(9);
+            valueATextView.setSingleLine(true);
+            valueATextView.setEllipsize(TextUtils.TruncateAt.END);
+            valueATextView.setText(a.get(i));
+
+            numberB.setMaxEms(3);
+            numberB.setSingleLine(true);
+            numberB.setEllipsize(TextUtils.TruncateAt.END);
+            numberB.setText(b.get(i) != null ? String.valueOf(i) : "-");
+
+            valueBTextView.setMaxEms(9);
+            valueBTextView.setSingleLine(true);
+            valueBTextView.setEllipsize(TextUtils.TruncateAt.END);
+            valueBTextView.setText(b.get(i) != null ? b.get(i) : "-");
+
+            tr.addView(numberA);
+            tr.addView(valueATextView);
+            tr.addView(numberB);
+            tr.addView(valueBTextView);
+
+            tl.addView(tr);
+        }
+
+    }
+
+    TableRow getCustomTableRow(List<String> headings) {
+        TableRow tr = new TableRow(getActivity());
+        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+        for(String heading : headings){
+            TextView tv1 = new TextView(getActivity());
+            tv1.setText(heading);
+            tv1.setTypeface(null, Typeface.BOLD);
+            tr.addView(tv1);
+        }
+        return tr;
     }
 
     /**
