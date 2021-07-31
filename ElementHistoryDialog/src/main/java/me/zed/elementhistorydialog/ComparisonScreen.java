@@ -57,7 +57,7 @@ public class ComparisonScreen extends DialogFragment {
     ImageButton backButton;
     ScrollView parent;
     ProgressBar progressBar;
-
+    OsmElement elementA, elementB;
     Changeset resultA = null, resultB = null;
 
     @Override
@@ -81,21 +81,10 @@ public class ComparisonScreen extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
 
-        OsmElement elementA = (OsmElement) args.getSerializable("DataA");
-        OsmElement elementB = (OsmElement) args.getSerializable("DataB");
+        elementA = (OsmElement) args.getSerializable("DataA");
+        elementB = (OsmElement) args.getSerializable("DataB");
 
-        initUi(view, elementA, elementB);
-
-        switch (elementA.getType()) {
-            case NODE:
-                displayNodeData();
-                break;
-            case WAY:
-                displayWayData();
-                break;
-            case RELATION:
-                displayRelationData();
-        }
+        initUi(view);
 
         try {
             xmlParserFactory = XmlPullParserFactory.newInstance();
@@ -109,32 +98,11 @@ public class ComparisonScreen extends DialogFragment {
     }
 
     /**
-     * Displays relation members with roles for both versions if the elementType is {@link Relation}
-     */
-    private void displayRelationData() {
-
-    }
-
-    /**
-     * Displays node list for both the versions if the selected element is of the type {@link Way}
-     */
-    private void displayWayData() {
-    }
-
-    /**
-     * Displays the node data for both the nodes if the selected element type is {@link Node}
-     */
-    private void displayNodeData() {
-    }
-
-    /**
      * Display the common UI elements for all the Element Types
      *
-     * @param view     parent View
-     * @param elementA Selected OSM element A
-     * @param elementB Selected OSM element B
+     * @param view parent View
      */
-    void initUi(View view, OsmElement elementA, OsmElement elementB) {
+    void initUi(View view) {
         llA = view.findViewById(R.id.version_A);
         llB = view.findViewById(R.id.version_B);
         backButton = view.findViewById(R.id.back_button_comparison);
@@ -169,9 +137,22 @@ public class ComparisonScreen extends DialogFragment {
         tl.setStretchAllColumns(true);
 
         if (!elementA.tags.isEmpty() || !elementB.tags.isEmpty()) {
+            //todo display an empty table for better user understanding of the feature
             addTableHeading(tl);
             addTagTable(tl, elementA.tags, elementB.tags);
         }
+
+        switch (elementA.getType()) {
+            case NODE:
+                displayNodeData(view);
+                break;
+            case WAY:
+                displayWayData(view);
+                break;
+            case RELATION:
+                displayRelationData(view);
+        }
+
     }
 
     void addTableHeading(TableLayout tl) {
@@ -260,6 +241,58 @@ public class ComparisonScreen extends DialogFragment {
         tr.addView(valueBTextView);
 
         return tr;
+    }
+
+    /**
+     * Displays relation members with roles for both versions if the elementType is {@link Relation}
+     */
+    private void displayRelationData(View view) {
+        LinearLayout ll = view.findViewById(R.id.relation_details_table);
+        ll.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Displays node list for both the versions if the selected element is of the type {@link Way}
+     */
+    private void displayWayData(View view) {
+        LinearLayout ll = view.findViewById(R.id.way_details_table);
+        ll.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Displays the node data for both the nodes if the selected element type is {@link Node}
+     */
+    private void displayNodeData(View view) {
+        if (view != null && elementA != null && elementA instanceof Node) {
+
+            LinearLayout ll = view.findViewById(R.id.node_details_table);
+            TextView lat1 = ll.findViewById(R.id.node_A_latitude);
+            TextView lat2 = ll.findViewById(R.id.node_B_latitude);
+            TextView lon1 = ll.findViewById(R.id.node_A_longitude);
+            TextView lon2 = ll.findViewById(R.id.node_B_longitude);
+            LinearLayout distance = ll.findViewById(R.id.distance_details);
+
+            if (((Node) elementA).getLat() == 0 && ((Node) elementA).getLon() == 0) {
+                lat1.setText(R.string.none);
+                lon1.setText(R.string.none);
+            } else {
+                lat1.setText(String.valueOf(((Node) elementA).getLat()));
+                lon1.setText(String.valueOf(((Node) elementA).getLon()));
+            }
+
+            if (((Node) elementB).getLat() == 0 && ((Node) elementB).getLon() == 0) {
+                lat2.setText(R.string.none);
+                lon2.setText(R.string.none);
+            } else {
+                lat2.setText(String.valueOf(((Node) elementB).getLat()));
+                lon2.setText(String.valueOf(((Node) elementB).getLon()));
+            }
+
+            //todo add distance calculations
+            distance.setVisibility(View.GONE);
+            ll.setVisibility(View.VISIBLE);
+        }
+
     }
 
     /**
@@ -352,8 +385,8 @@ public class ComparisonScreen extends DialogFragment {
             }
         }
         if (version.equals(versionB)) {
-            progressBar.setVisibility(View.GONE);
             parent.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
 
     }

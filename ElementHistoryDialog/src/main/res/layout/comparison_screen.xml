@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+
         android:indeterminate="true" />
 
     <ScrollView
@@ -71,6 +72,35 @@
                     android:orientation="vertical" />
 
             </HorizontalScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <include
+                android:id="@+id/node_details_table"
+                android:visibility="gone"
+                layout="@layout/node_details" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <include
+                android:id="@+id/way_details_table"
+                android:visibility="gone"
+                layout="@layout/way_details" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <include
+                android:id="@+id/relation_details_table"
+                android:visibility="gone"
+                layout="@layout/relation_details" />
 
         </LinearLayout>
 

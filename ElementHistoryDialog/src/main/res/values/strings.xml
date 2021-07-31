@@ -13,4 +13,5 @@
     <string name="date_text">Date</string>
     <string name="compare_text">Compare</string>
     <string name="exit_text">Exit</string>
+    <string name="none">(none)</string>
 </resources>

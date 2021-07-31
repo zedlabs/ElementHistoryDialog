@@ -47,14 +47,14 @@ public class Node extends OsmElement {
     /**
      * @return the latitude of the current node
      */
-    int getLat() {
+    public int getLat() {
         return lat;
     }
 
     /**
      * @return the longitude of the current node
      */
-    int getLon() {
+    public int getLon() {
         return lon;
     }
 

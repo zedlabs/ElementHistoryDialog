@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ElementHistoryDialog ehd = ElementHistoryDialog.create(129, "node");
+        ElementHistoryDialog ehd = ElementHistoryDialog.create(56, "node");
         ehd.show(getSupportFragmentManager(), "sample-application");
     }
 }
