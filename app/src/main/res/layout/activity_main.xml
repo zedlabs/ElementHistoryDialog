@@ -10,9 +10,34 @@
     android:id="@+id/button_show"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    android:text="Search"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/type_edt"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="32dp"
+        android:inputType="textPersonName"
+        android:hint="Type"
+        app:layout_constraintBottom_toTopOf="@+id/button_show"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/id_edt"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:inputType="textPersonName"
+        android:hint="Id"
+        app:layout_constraintBottom_toBottomOf="@+id/type_edt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/type_edt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

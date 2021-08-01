@@ -2,6 +2,7 @@ package me.zed.sampleapplication;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.button_show).setOnClickListener(v -> {
 
-            ElementHistoryDialog ehd = ElementHistoryDialog.create(1, "node");
+            EditText edt1 = findViewById(R.id.id_edt);
+            EditText edt2 = findViewById(R.id.type_edt);
+            ElementHistoryDialog ehd = ElementHistoryDialog.create(Integer.parseInt(edt1.getText().toString()), edt2.getText().toString());
             ehd.show(getSupportFragmentManager(), "sample-application");
         });
 
