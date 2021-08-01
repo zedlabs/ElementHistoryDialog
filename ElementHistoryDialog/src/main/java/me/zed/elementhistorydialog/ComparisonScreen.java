@@ -362,9 +362,9 @@ public class ComparisonScreen extends DialogFragment {
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA) : "-"));
+        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA+1) : "-"));
         tr.addView(getTextViewForTable(9, nodeA));
-        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB) : "-"));
+        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB+1) : "-"));
         tr.addView(getTextViewForTable(9, nodeB));
 
         tr.setBackgroundColor(colorId);
