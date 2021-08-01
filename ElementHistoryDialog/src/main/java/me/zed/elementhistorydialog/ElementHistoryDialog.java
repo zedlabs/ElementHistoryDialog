@@ -106,6 +106,7 @@ public class ElementHistoryDialog extends DialogFragment {
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction()
                             .add(cs, null)
+                            .remove(this)
                             .commit();
                 }
             }

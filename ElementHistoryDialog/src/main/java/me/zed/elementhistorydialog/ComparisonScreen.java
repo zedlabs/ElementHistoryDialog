@@ -129,6 +129,12 @@ public class ComparisonScreen extends DialogFragment {
         backButton.setOnClickListener(v -> {
             if (getDialog() != null) {
                 getDialog().onBackPressed();
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction()
+                            .add(ElementHistoryDialog.create(elementA.osmId, elementA.getType().name().toLowerCase()), null)
+                            .hide(this)
+                            .commit();
+                }
             }
         });
 
