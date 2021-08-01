@@ -64,7 +64,7 @@ public class ComparisonScreen extends DialogFragment {
 
    public ComparisonScreen(){}
 
-    public static ComparisonScreen newInstance(OsmElement elementA, OsmElement elementB){
+    public static ComparisonScreen newInstance(OsmElement elementA, OsmElement elementB) {
         ComparisonScreen cs = new ComparisonScreen();
         Bundle args = new Bundle();
         args.putSerializable("DataA", elementA);
@@ -271,7 +271,7 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.relation_member_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(Arrays.asList("NO.", "ROLE", "OBJECT", "|","NO.", "ROLE", "OBJECT")));
+        tl.addView(getCustomTableRow(Arrays.asList("NO.", "ROLE", "OBJECT", "|", "NO.", "ROLE", "OBJECT")));
         List<RelationMember> membersA = ((Relation) elementA).getMembers();
         List<RelationMember> membersB = ((Relation) elementB).getMembers();
         addRelationTableRows(tl, membersA, membersB);
@@ -291,7 +291,7 @@ public class ComparisonScreen extends DialogFragment {
             //todo bug 25
             tr.addView(getTextViewForTable(1, membersB.get(i) != null ? String.valueOf(i) : "-"));
             tr.addView(getTextViewForTable(5, membersB.get(i) != null ? membersB.get(i).getRole() : "-"));
-            tr.addView(getTextViewForTable(11,  membersB.get(i) != null ? membersB.get(i).getType() + " " + membersB.get(i).getRef() : "-"));
+            tr.addView(getTextViewForTable(11, membersB.get(i) != null ? membersB.get(i).getType() + " " + membersB.get(i).getRef() : "-"));
 
             tl.addView(tr);
         }
@@ -317,18 +317,58 @@ public class ComparisonScreen extends DialogFragment {
 
     void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
 
-        for (int i = 0; i < a.size(); i++) {
-            TableRow tr = new TableRow(getActivity());
-            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-
-            tr.addView(getTextViewForTable(3, String.valueOf(i)));
-            tr.addView(getTextViewForTable(9, a.get(i)));
-            tr.addView(getTextViewForTable(3, b.get(i) != null ? String.valueOf(i) : "-"));
-            tr.addView(getTextViewForTable(9, b.get(i) != null ? b.get(i) : "-"));
-
-            tl.addView(tr);
+        int j = 0, k = 0;
+        while (j < a.size() || k < b.size()) {
+            if (j < a.size() && k < b.size()) {
+                if (a.get(j).equals(b.get(k))) {
+                    //no change
+                    tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.white)));
+                    j++;
+                    k++;
+                } else if (!a.get(j).equals(b.get(k)) && !b.contains(a.get(j))) {
+                    if (j == k && !a.contains(b.get(k))) {
+                        // value change
+                        tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.color_table_change)));
+                        j++;
+                        k++;
+                    } else {
+                        // value deleted
+                        tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
+                        j++;
+                    }
+                } else if (!a.get(j).equals(b.get(k)) && b.contains(a.get(j))) {
+                    //value added
+                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
+                    k++;
+                }
+            } else {
+                if (k < b.size() && !a.contains(b.get(k))) {
+                    //value added
+                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
+                    k++;
+                }
+                else if(j < a.size() && !b.contains(a.get(j))){
+                    // value deleted
+                    tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
+                    j++;
+                }
+            }
         }
 
+
+    }
+
+    TableRow getWayTableRow(int noA, int noB, String nodeA, String nodeB, int colorId) {
+        TableRow tr = new TableRow(getActivity());
+        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+
+        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA) : "-"));
+        tr.addView(getTextViewForTable(9, nodeA));
+        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB) : "-"));
+        tr.addView(getTextViewForTable(9, nodeB));
+
+        tr.setBackgroundColor(colorId);
+        return tr;
     }
 
     /**
