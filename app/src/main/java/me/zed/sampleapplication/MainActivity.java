@@ -1,7 +1,10 @@
 package me.zed.sampleapplication;
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import me.zed.elementhistorydialog.ElementHistoryDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -11,7 +14,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ElementHistoryDialog ehd = ElementHistoryDialog.create(56, "node");
-        ehd.show(getSupportFragmentManager(), "sample-application");
+        findViewById(R.id.button_show).setOnClickListener(v -> {
+
+            ElementHistoryDialog ehd = ElementHistoryDialog.create(1, "node");
+            ehd.show(getSupportFragmentManager(), "sample-application");
+        });
+
     }
 }

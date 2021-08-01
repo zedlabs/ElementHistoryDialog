@@ -62,6 +62,26 @@ public class ComparisonScreen extends DialogFragment {
     OsmElement elementA, elementB;
     Changeset resultA = null, resultB = null;
 
+   public ComparisonScreen(){}
+
+    public static ComparisonScreen newInstance(OsmElement elementA, OsmElement elementB){
+        ComparisonScreen cs = new ComparisonScreen();
+        Bundle args = new Bundle();
+        args.putSerializable("DataA", elementA);
+        args.putSerializable("DataB", elementB);
+        cs.setArguments(args);
+        return cs;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+
+        elementA = (OsmElement) args.getSerializable("DataA");
+        elementB = (OsmElement) args.getSerializable("DataB");
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -81,11 +101,6 @@ public class ComparisonScreen extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle args = getArguments();
-
-        elementA = (OsmElement) args.getSerializable("DataA");
-        elementB = (OsmElement) args.getSerializable("DataB");
-
         initUi(view);
 
         try {

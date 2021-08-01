@@ -65,6 +65,7 @@ public class ElementHistoryDialog extends DialogFragment {
         osmParser = new OsmParser();
     }
 
+    public ElementHistoryDialog(){}
 
     @Override
     public void onStart() {
@@ -83,7 +84,6 @@ public class ElementHistoryDialog extends DialogFragment {
         versionList = (RecyclerView) parent.findViewById(R.id.itemVersionList);
         progressBar = parent.findViewById(R.id.editSelectionProgressBar);
         parentLayout = parent.findViewById(R.id.editSelectionParent);
-
         return parent;
     }
 
@@ -99,20 +99,15 @@ public class ElementHistoryDialog extends DialogFragment {
                 Toast.makeText(requireContext(), "Select version A & B for comparison", Toast.LENGTH_SHORT).show();
             } else {
                 //navigate to comparison screen
-                ComparisonScreen cs = new ComparisonScreen();
-                Bundle b = new Bundle();
-
                 OsmElement elementA = osmParser.getStorage().getAll().get(positionA);
                 OsmElement elementB = osmParser.getStorage().getAll().get(positionB);
+                ComparisonScreen cs = ComparisonScreen.newInstance(elementA, elementB);
 
-                b.putSerializable("DataA", elementA);
-                b.putSerializable("DataB", elementB);
-
-                cs.setArguments(b);
-
-                getFragmentManager().beginTransaction()
-                        .add(cs, null)
-                        .commit();
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction()
+                            .add(cs, null)
+                            .commit();
+                }
             }
         });
 
@@ -215,6 +210,8 @@ public class ElementHistoryDialog extends DialogFragment {
                     super.onPostExecute(result);
                     if (result == false) {
                         //handle failed case
+                        Log.e("AsyncTask", "failed to load result");
+                        progressBar.setVisibility(View.GONE);
                     } else {
                         //add data to the rows
                         if(progressBar != null) progressBar.setVisibility(View.GONE);
