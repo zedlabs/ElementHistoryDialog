@@ -1,10 +1,8 @@
 package me.zed.elementhistorydialog;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,17 +24,12 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import me.zed.elementhistorydialog.elements.OsmElement;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import static me.zed.elementhistorydialog.Util.openConnection;
 
@@ -110,8 +102,8 @@ public class ElementHistoryDialog extends DialogFragment {
                 ComparisonScreen cs = new ComparisonScreen();
                 Bundle b = new Bundle();
 
-                OsmElement elementA = osmParser.getStorage().getElementWithVersion(positionA);
-                OsmElement elementB = osmParser.getStorage().getElementWithVersion(positionB);
+                OsmElement elementA = osmParser.getStorage().getAll().get(positionA);
+                OsmElement elementB = osmParser.getStorage().getAll().get(positionB);
 
                 b.putSerializable("DataA", elementA);
                 b.putSerializable("DataB", elementB);
@@ -160,7 +152,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                positionA = position + 1;
+                positionA = position;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
@@ -182,7 +174,7 @@ public class ElementHistoryDialog extends DialogFragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int position) {
             if (position != -1 && position < ids.size()) {
-                positionB = position + 1;
+                positionB = position;
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }

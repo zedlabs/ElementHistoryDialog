@@ -137,11 +137,12 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = view.findViewById(R.id.tag_table);
         tl.setStretchAllColumns(true);
-
+        addTagTableHeading(tl);
         if (!elementA.tags.isEmpty() || !elementB.tags.isEmpty()) {
-            //todo display an empty table for better user understanding of the feature
-            addTableHeading(tl);
             addTagTable(tl, elementA.tags, elementB.tags);
+        } else {
+            //case both are empty add indicator
+            addEmptyRow(tl);
         }
 
         switch (elementA.getType()) {
@@ -157,7 +158,22 @@ public class ComparisonScreen extends DialogFragment {
 
     }
 
-    void addTableHeading(TableLayout tl) {
+    private void addEmptyRow(TableLayout tl) {
+        TableRow tr = new TableRow(getActivity());
+        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
+        TextView tv1 = new TextView(getActivity());
+        TextView tv2 = new TextView(getActivity());
+        TextView tv3 = new TextView(getActivity());
+        tv1.setText("-");
+        tv2.setText("-");
+        tv3.setText("-");
+        tr.addView(tv1);
+        tr.addView(tv2);
+        tr.addView(tv3);
+        tl.addView(tr);
+    }
+
+    void addTagTableHeading(TableLayout tl) {
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
