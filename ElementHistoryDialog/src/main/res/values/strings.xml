@@ -14,4 +14,6 @@
     <string name="compare_text">Compare</string>
     <string name="exit_text">Exit</string>
     <string name="none">(none)</string>
+    <string name="relation_object_notation">%s %s</string>
+    <string name="empty_field">-</string>
 </resources>
