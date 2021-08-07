@@ -285,21 +285,7 @@ public class ComparisonScreen extends DialogFragment {
 
     void addRelationTableRows(TableLayout tl, List<RelationMember> a, List<RelationMember> b) {
 
-//        for (int i = 0; i < membersA.size(); i++) {
-//            TableRow tr = new TableRow(getActivity());
-//            tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-//
-//            tr.addView(getTextViewForTable(1, String.valueOf(i)));
-//            tr.addView(getTextViewForTable(5, membersA.get(i).getRole()));
-//            tr.addView(getTextViewForTable(11, membersA.get(i).getType() + " " + membersA.get(i).getRef()));
-//            tr.addView(getTextViewForTable(1, "|"));
-//            //todo bug 25
-//            tr.addView(getTextViewForTable(1, membersB.get(i) != null ? String.valueOf(i) : "-"));
-//            tr.addView(getTextViewForTable(5, membersB.get(i) != null ? membersB.get(i).getRole() : "-"));
-//            tr.addView(getTextViewForTable(11, membersB.get(i) != null ? membersB.get(i).getType() + " " + membersB.get(i).getRef() : "-"));
-//
-//            tl.addView(tr);
-//        }
+        //todo bug 25
         int j = 0, k = 0;
         while (j < a.size() || k < b.size()) {
             if (j < a.size() && k < b.size()) {
