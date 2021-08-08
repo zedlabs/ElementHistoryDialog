@@ -11,12 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: set up JDK 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - name: Build with Gradle
-      run: ./gradlew assembleCurrentDebug
-    - name: Run unit tests
-      run: ./gradlew test
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Create debug apk
+        id: assembleDebug
+        run: ./gradlew assembleDebug
