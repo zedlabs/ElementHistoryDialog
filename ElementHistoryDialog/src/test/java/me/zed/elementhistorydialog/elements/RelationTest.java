@@ -37,8 +37,5 @@ public class RelationTest {
         TreeMap<String, String> tags = new TreeMap<>();
         tags.put(KEY_TYPE, "");
         assertEquals(r.getType(tags), OsmElement.ElementType.RELATION);
-        tags.put(KEY_TYPE, VALUE_MULTIPOLYGON);
-        assertEquals(r.getType(tags), OsmElement.ElementType.AREA);
-
     }
 }
