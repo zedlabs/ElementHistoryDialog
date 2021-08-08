@@ -243,73 +243,30 @@ public class ComparisonScreen extends DialogFragment {
     }
 
     void addRelationTableRows(TableLayout tl, List<RelationMember> a, List<RelationMember> b) {
+        Boolean[] visited = new Boolean[b.size()];
+        Arrays.fill(visited, false);
 
-        //todo bug 25
-        int j = 0, k = 0;
-        while (j < a.size() || k < b.size()) {
-            if (j < a.size() && k < b.size()) {
-                if (areEqual(a.get(j), b.get(k))) {
-                    //no change
-                    String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
-                    String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                    tl.addView(getRelationTableRow(j, k, a.get(j).getRole(), b.get(k).getRole(), objectA, objectB, getResources().getColor(R.color.white)));
-                    j++;
-                    k++;
-                } else if (!areEqual(a.get(j), b.get(k)) && !findInRelationList(b, a.get(j))) {
-                    if (j == k && !findInRelationList(a, b.get(k))) {
-                        // value change
-                        String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
-                        String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                        tl.addView(getRelationTableRow(j, k, a.get(j).getRole(), b.get(k).getRole(), objectA, objectB, getResources().getColor(R.color.color_table_change)));
-                        j++;
-                        k++;
-                    } else {
-                        // value deleted
-                        String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
-                        tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
-                        j++;
-                    }
-                } else if (!areEqual(a.get(j), b.get(k)) && findInRelationList(b, a.get(j))) {
-
-                    int bIndex = getIndexInList(b, a.get(j));
-                    boolean check = false;
-                    if(bIndex != -1 && bIndex > k){
-                        int diff = bIndex - k;
-                        for(int i = 0; i < diff; i++){
-                            if(j+i+1 < a.size() && areEqual(a.get(j+i+1), b.get(k+i))) {
-                                check = true;
-                                break;
-                            }
-                        }
-                    }
-                    if(check){
-                        // value deleted
-                        String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
-                        tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
-                        j++;
-                    } else {
-                        //value added
-                        String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                        tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
-                        k++;
-                    }
-
-                }
+        for (int i = 0; i < a.size(); i++) {
+            if (findInRelationList(b, a.get(i))) {
+                if (getIndexInList(b, a.get(i)) != -1) visited[getIndexInList(b, a.get(i))] = true;
+                //no change
+                String objectA = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                String objectB = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, getResources().getColor(R.color.white)));
             } else {
-                if (k < b.size() && !findInRelationList(a, b.get(k))) {
-                    //value added
-                    String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                    tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
-                    k++;
-                } else if (j < a.size() && !findInRelationList(b, a.get(j))) {
-                    // value deleted
-                    String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
-                    tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
-                    j++;
-                }
+                // value deleted
+                String objectA = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                tl.addView(getRelationTableRow(i, -1, a.get(i).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
             }
         }
 
+        for (int i = 0; i < b.size(); i++) {
+            //value added
+            if (!visited[i]) {
+                String objectB = String.format(getString(R.string.relation_object_notation), b.get(i).getType(), String.valueOf(b.get(i).getRef()));
+                tl.addView(getRelationTableRow(-1, i, "-", b.get(i).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
+            }
+        }
 
     }
 
