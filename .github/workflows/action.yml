@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -20,6 +19,9 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Create debug apk
         id: assembleDebug
-        run: ./gradlew assembleDebug
+        run: ./gradlew build
