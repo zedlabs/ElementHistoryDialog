@@ -1,12 +1,9 @@
 package me.zed.elementhistorydialog;
 
 import android.app.Dialog;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +38,15 @@ import me.zed.elementhistorydialog.elements.Way;
 import static me.zed.elementhistorydialog.Changeset.KEY_COMMENT;
 import static me.zed.elementhistorydialog.Changeset.KEY_IMAGERY_USED;
 import static me.zed.elementhistorydialog.Changeset.KEY_SOURCE;
+import static me.zed.elementhistorydialog.TableUtil.addEmptyRow;
+import static me.zed.elementhistorydialog.TableUtil.addTableRow;
+import static me.zed.elementhistorydialog.TableUtil.addTagTableHeading;
+import static me.zed.elementhistorydialog.TableUtil.getCustomTableRow;
+import static me.zed.elementhistorydialog.TableUtil.getTextViewForTable;
+import static me.zed.elementhistorydialog.Util.areEqual;
+import static me.zed.elementhistorydialog.Util.findInRelationList;
 import static me.zed.elementhistorydialog.Util.getChangeSetUrl;
+import static me.zed.elementhistorydialog.Util.getIndexInList;
 import static me.zed.elementhistorydialog.Util.openConnection;
 
 /**
@@ -160,12 +165,12 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = view.findViewById(R.id.tag_table);
         tl.setStretchAllColumns(true);
-        addTagTableHeading(tl);
+        tl.addView(addTagTableHeading(getActivity()));
         if (!elementA.tags.isEmpty() || !elementB.tags.isEmpty()) {
             addTagTable(tl, elementA.tags, elementB.tags);
         } else {
             //case both are empty add indicator
-            addEmptyRow(tl);
+            tl.addView(addEmptyRow(getActivity()));
         }
 
         switch (elementA.getType()) {
@@ -181,47 +186,6 @@ public class ComparisonScreen extends DialogFragment {
 
     }
 
-    private void addEmptyRow(TableLayout tl) {
-        TableRow tr = new TableRow(getActivity());
-        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-        TextView tv1 = new TextView(getActivity());
-        TextView tv2 = new TextView(getActivity());
-        TextView tv3 = new TextView(getActivity());
-        tv1.setText("-");
-        tv2.setText("-");
-        tv3.setText("-");
-        tr.addView(tv1);
-        tr.addView(tv2);
-        tr.addView(tv3);
-        tl.addView(tr);
-    }
-
-    void addTagTableHeading(TableLayout tl) {
-        TableRow tr = new TableRow(getActivity());
-        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-
-        TextView tv1 = new TextView(getActivity());
-        TextView tv2 = new TextView(getActivity());
-        TextView tv3 = new TextView(getActivity());
-
-        tv1.setText("KEY");
-        tv2.setText(getString(R.string.version_a));
-        tv3.setText(getString(R.string.version_b));
-
-        tv1.setTypeface(null, Typeface.BOLD);
-        tv2.setTypeface(null, Typeface.BOLD);
-        tv3.setTypeface(null, Typeface.BOLD);
-        tv1.setGravity(Gravity.CENTER_HORIZONTAL);
-        tv2.setGravity(Gravity.CENTER_HORIZONTAL);
-        tv3.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        tr.addView(tv1);
-        tr.addView(tv2);
-        tr.addView(tv3);
-        tl.addView(tr);
-
-    }
-
     /**
      * Displays a table to visualize the changes between the tags in the different versions
      *
@@ -233,7 +197,7 @@ public class ComparisonScreen extends DialogFragment {
         for (Map.Entry<String, String> s : tagsA.entrySet()) {
             if (tagsB.containsKey(s.getKey())) {
                 //b also contains - add without bg color, add with change color for value change
-                TableRow tr = addTableRow(s.getKey(), s.getValue(), tagsB.get(s.getKey()));
+                TableRow tr = addTableRow(s.getKey(), s.getValue(), tagsB.get(s.getKey()), getActivity());
                 if (!s.getValue().equals(tagsB.get(s.getKey()))) {
                     tr.setBackgroundColor(getResources().getColor(R.color.color_table_change));
                 }
@@ -241,7 +205,7 @@ public class ComparisonScreen extends DialogFragment {
 
             } else {
                 //b does not contain - add with red colo
-                TableRow tr = addTableRow(s.getKey(), s.getValue(), "");
+                TableRow tr = addTableRow(s.getKey(), s.getValue(), "", getActivity());
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_deletion));
                 tl.addView(tr);
             }
@@ -249,23 +213,11 @@ public class ComparisonScreen extends DialogFragment {
         for (Map.Entry<String, String> s : tagsB.entrySet()) {
             if (!tagsA.containsKey(s.getKey())) {
                 //b contains a does not - add with green color
-                TableRow tr = addTableRow(s.getKey(), "", s.getValue());
+                TableRow tr = addTableRow(s.getKey(), "", s.getValue(), getActivity());
                 tr.setBackgroundColor(getResources().getColor(R.color.color_table_addition));
                 tl.addView(tr);
             }
         }
-    }
-
-    TableRow addTableRow(String keyValue, String aValue, String bValue) {
-
-        TableRow tr = new TableRow(getActivity());
-        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-
-        tr.addView(getTextViewForTable(7, keyValue));
-        tr.addView(getTextViewForTable(9, aValue));
-        tr.addView(getTextViewForTable(9, bValue));
-
-        return tr;
     }
 
     /**
@@ -276,7 +228,14 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.relation_member_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(Arrays.asList("NO.", "ROLE", "OBJECT", "|", "NO.", "ROLE", "OBJECT")));
+        tl.addView(getCustomTableRow(
+                Arrays.asList(
+                        getString(R.string.no_text), getString(R.string.role_text), getString(R.string.object_text),
+                        getString(R.string.no_text), getString(R.string.role_text), getString(R.string.object_text)
+                ),
+                getActivity()
+                )
+        );
         List<RelationMember> membersA = ((Relation) elementA).getMembers();
         List<RelationMember> membersB = ((Relation) elementB).getMembers();
         addRelationTableRows(tl, membersA, membersB);
@@ -289,52 +248,68 @@ public class ComparisonScreen extends DialogFragment {
         int j = 0, k = 0;
         while (j < a.size() || k < b.size()) {
             if (j < a.size() && k < b.size()) {
-                if (a.get(j).equals(b.get(k))) {
+                if (areEqual(a.get(j), b.get(k))) {
                     //no change
                     String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
                     String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
                     tl.addView(getRelationTableRow(j, k, a.get(j).getRole(), b.get(k).getRole(), objectA, objectB, getResources().getColor(R.color.white)));
                     j++;
                     k++;
-                } else if (!a.get(j).equals(b.get(k)) && !b.contains(a.get(j))) {
-                    if (j == k && !a.contains(b.get(k))) {
+                } else if (!areEqual(a.get(j), b.get(k)) && !findInRelationList(b, a.get(j))) {
+                    if (j == k && !findInRelationList(a, b.get(k))) {
                         // value change
                         String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
                         String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
                         tl.addView(getRelationTableRow(j, k, a.get(j).getRole(), b.get(k).getRole(), objectA, objectB, getResources().getColor(R.color.color_table_change)));
-                        //tl.addView(getRelationTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.color_table_change)));
                         j++;
                         k++;
                     } else {
                         // value deleted
                         String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
                         tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
-                        //tl.addView(getRelationTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
                         j++;
                     }
-                } else if (!a.get(j).equals(b.get(k)) && b.contains(a.get(j))) {
-                    //value added
-                    String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                    tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(),"-", objectB, getResources().getColor(R.color.color_table_addition)));
-                    //tl.addView(getRelationTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
-                    k++;
+                } else if (!areEqual(a.get(j), b.get(k)) && findInRelationList(b, a.get(j))) {
+
+                    int bIndex = getIndexInList(b, a.get(j));
+                    boolean check = false;
+                    if(bIndex != -1 && bIndex > k){
+                        int diff = bIndex - k;
+                        for(int i = 0; i < diff; i++){
+                            if(j+i+1 < a.size() && areEqual(a.get(j+i+1), b.get(k+i))) {
+                                check = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(check){
+                        // value deleted
+                        String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
+                        tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
+                        j++;
+                    } else {
+                        //value added
+                        String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
+                        tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
+                        k++;
+                    }
+
                 }
             } else {
-                if (k < b.size() && !a.contains(b.get(k))) {
+                if (k < b.size() && !findInRelationList(a, b.get(k))) {
                     //value added
                     String objectB = String.format(getString(R.string.relation_object_notation), b.get(k).getType(), String.valueOf(b.get(k).getRef()));
-                    tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(),"-", objectB, getResources().getColor(R.color.color_table_addition)));
-                    //tl.addView(getRelationTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
+                    tl.addView(getRelationTableRow(-1, k, "-", b.get(k).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
                     k++;
-                } else if (j < a.size() && !b.contains(a.get(j))) {
+                } else if (j < a.size() && !findInRelationList(b, a.get(j))) {
                     // value deleted
                     String objectA = String.format(getString(R.string.relation_object_notation), a.get(j).getType(), String.valueOf(a.get(j).getRef()));
                     tl.addView(getRelationTableRow(j, -1, a.get(j).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
-//                    tl.addView(getRelationTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
                     j++;
                 }
             }
         }
+
 
     }
 
@@ -342,13 +317,12 @@ public class ComparisonScreen extends DialogFragment {
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        tr.addView(getTextViewForTable(2, noA != -1 ? String.valueOf(noA + 1) : "-"));
-        tr.addView(getTextViewForTable(5, roleA.isEmpty() ? "-" : roleA));
-        tr.addView(getTextViewForTable(9, objectA));
-        tr.addView(getTextViewForTable(1, "|"));
-        tr.addView(getTextViewForTable(2, noB != -1 ? String.valueOf(noB + 1) : "-"));
-        tr.addView(getTextViewForTable(5, roleB.isEmpty() ? "-" : roleB));
-        tr.addView(getTextViewForTable(9, objectB));
+        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA + 1) : "-", getActivity()));
+        tr.addView(getTextViewForTable(9, roleA.isEmpty() ? "-" : roleA, getActivity()));
+        tr.addView(getTextViewForTable(9, objectA, getActivity()));
+        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB + 1) : "-", getActivity()));
+        tr.addView(getTextViewForTable(9, roleB.isEmpty() ? "-" : roleB, getActivity()));
+        tr.addView(getTextViewForTable(9, objectB, getActivity()));
 
         tr.setBackgroundColor(colorId);
         return tr;
@@ -362,7 +336,7 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.node_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(Arrays.asList("NO.", "NODES", "NO.", "NODES")));
+        tl.addView(getCustomTableRow(Arrays.asList(getString(R.string.no_text), getString(R.string.nodes_text), getString(R.string.no_text), getString(R.string.nodes_text)), getActivity()));
 
         List<String> nodesA = ((Way) elementA).getWayNodes();
         List<String> nodesB = ((Way) elementB).getWayNodes();
@@ -414,10 +388,10 @@ public class ComparisonScreen extends DialogFragment {
         TableRow tr = new TableRow(getActivity());
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA + 1) : "-"));
-        tr.addView(getTextViewForTable(9, nodeA));
-        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB + 1) : "-"));
-        tr.addView(getTextViewForTable(9, nodeB));
+        tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA + 1) : "-", getActivity()));
+        tr.addView(getTextViewForTable(9, nodeA, getActivity()));
+        tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB + 1) : "-", getActivity()));
+        tr.addView(getTextViewForTable(9, nodeB, getActivity()));
 
         tr.setBackgroundColor(colorId);
         return tr;
@@ -457,30 +431,6 @@ public class ComparisonScreen extends DialogFragment {
             ll.setVisibility(View.VISIBLE);
         }
 
-    }
-
-    private TextView getTextViewForTable(int ems, String text) {
-        TextView tv = new TextView(getActivity());
-        tv.setMaxEms(ems);
-        tv.setSingleLine(true);
-        tv.setEllipsize(TextUtils.TruncateAt.END);
-        tv.setText(text);
-        tv.setGravity(Gravity.CENTER_HORIZONTAL);
-        return tv;
-    }
-
-    TableRow getCustomTableRow(List<String> headings) {
-        TableRow tr = new TableRow(getActivity());
-        tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
-
-        for (String heading : headings) {
-            TextView tv1 = new TextView(getActivity());
-            tv1.setText(heading);
-            tv1.setTypeface(null, Typeface.BOLD);
-            tr.addView(tv1);
-            tv1.setGravity(Gravity.CENTER_HORIZONTAL);
-        }
-        return tr;
     }
 
     /**

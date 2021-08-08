@@ -16,4 +16,9 @@
     <string name="none">(none)</string>
     <string name="relation_object_notation">%s %s</string>
     <string name="empty_field">-</string>
+    <string name="key_text">KEY</string>
+    <string name="no_text">NO.</string>
+    <string name="role_text">ROLE</string>
+    <string name="object_text">OBJECT</string>
+    <string name="nodes_text">NODES</string>
 </resources>

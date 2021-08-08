@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
+import me.zed.elementhistorydialog.elements.RelationMember;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +27,8 @@ public class Util {
 
     /**
      * Utility URL building function for a given OSM element
-     * @param osmId id of the current OSM element
+     *
+     * @param osmId       id of the current OSM element
      * @param elementType type of the current OSM element
      * @return URL to fetch the history data
      */
@@ -41,6 +44,7 @@ public class Util {
 
     /**
      * Utility URL building function for a given changeset
+     *
      * @param osmId id of the current OSM element
      * @return URL to fetch the changeset
      */
@@ -57,7 +61,7 @@ public class Util {
     /**
      * Utility function to make a toast message
      */
-    public static void makeToast(Context ctx, String message){
+    public static void makeToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
@@ -93,5 +97,23 @@ public class Util {
             throw new IOException("Illegal argument", iaex);
         }
         throw new IOException("openConnection this can't happen");
+    }
+
+    public static boolean areEqual(RelationMember rm1, RelationMember rm2) {
+        return rm1.getRef() == rm2.getRef() && rm1.getType().equals(rm2.getType());
+    }
+
+    public static Boolean findInRelationList(List<RelationMember> list, RelationMember relationMember) {
+        for (RelationMember currentMember : list) {
+            if (areEqual(currentMember, relationMember)) return true;
+        }
+        return false;
+    }
+
+    public static int getIndexInList(List<RelationMember> list, RelationMember relationMember) {
+        for (int i = 0; i < list.size(); i++) {
+            if (areEqual(list.get(i), relationMember)) return i;
+        }
+        return -1;
     }
 }
