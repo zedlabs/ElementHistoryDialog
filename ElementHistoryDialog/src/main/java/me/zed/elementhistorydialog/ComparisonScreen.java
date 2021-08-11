@@ -275,11 +275,11 @@ public class ComparisonScreen extends DialogFragment {
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
         tr.addView(getTextViewForTable(3, noA != -1 ? String.valueOf(noA + 1) : "-", getActivity()));
-        tr.addView(getTextViewForTable(9, roleA.isEmpty() ? "-" : roleA, getActivity()));
-        tr.addView(getTextViewForTable(9, objectA, getActivity()));
+        tr.addView(getTextViewForTable(12, roleA.isEmpty() ? "-" : roleA, getActivity()));
+        tr.addView(getTextViewForTable(12, objectA, getActivity()));
         tr.addView(getTextViewForTable(3, noB != -1 ? String.valueOf(noB + 1) : "-", getActivity()));
-        tr.addView(getTextViewForTable(9, roleB.isEmpty() ? "-" : roleB, getActivity()));
-        tr.addView(getTextViewForTable(9, objectB, getActivity()));
+        tr.addView(getTextViewForTable(12, roleB.isEmpty() ? "-" : roleB, getActivity()));
+        tr.addView(getTextViewForTable(12, objectB, getActivity()));
 
         tr.setBackgroundColor(colorId);
         return tr;

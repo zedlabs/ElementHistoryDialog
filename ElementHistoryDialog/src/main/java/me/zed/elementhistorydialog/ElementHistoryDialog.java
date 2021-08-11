@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -46,6 +47,9 @@ public class ElementHistoryDialog extends DialogFragment {
     RecyclerView versionList;
     ProgressBar progressBar;
     LinearLayout parentLayout;
+    LinearLayout errorLayout;
+    Button goBackBtn;
+
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
     /**
@@ -84,15 +88,19 @@ public class ElementHistoryDialog extends DialogFragment {
         versionList = (RecyclerView) parent.findViewById(R.id.itemVersionList);
         progressBar = parent.findViewById(R.id.editSelectionProgressBar);
         parentLayout = parent.findViewById(R.id.editSelectionParent);
+        errorLayout = parent.findViewById(R.id.error_layout);
         return parent;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fetchHistoryData();
         View c = view.findViewById(R.id.compare);
         View e = view.findViewById(R.id.exit);
+        goBackBtn = view.findViewById(R.id.go_back_btn);
+
+        fetchHistoryData();
+
 
         c.setOnClickListener(v -> {
             if (positionA == -1 || positionB == -1) {
@@ -113,6 +121,12 @@ public class ElementHistoryDialog extends DialogFragment {
         });
 
         e.setOnClickListener(v -> {
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+        });
+
+        goBackBtn.setOnClickListener(v -> {
             if (getDialog() != null) {
                 getDialog().dismiss();
             }
@@ -178,6 +192,9 @@ public class ElementHistoryDialog extends DialogFragment {
         }
     }
 
+    void showFailedCaseUI(){
+        errorLayout.setVisibility(View.VISIBLE);
+    }
     /**
      * Function to fetch the element history data through the '/history' endpoint
      * on the background thread and post the result back on the main thread
@@ -202,6 +219,9 @@ public class ElementHistoryDialog extends DialogFragment {
                         } catch (SAXException | IOException | ParserConfigurationException e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        //element deleted go back
+                        //return false;
                     }
                     return false;
                 }
@@ -213,6 +233,7 @@ public class ElementHistoryDialog extends DialogFragment {
                         //handle failed case
                         Log.e("AsyncTask", "failed to load result");
                         progressBar.setVisibility(View.GONE);
+                        showFailedCaseUI();
                     } else {
                         //add data to the rows
                         if(progressBar != null) progressBar.setVisibility(View.GONE);

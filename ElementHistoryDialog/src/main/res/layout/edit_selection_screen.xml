@@ -11,6 +11,34 @@
         android:indeterminate="true" />
 
     <LinearLayout
+        android:id="@+id/error_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="@string/selected_element_deleted"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/go_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/go_back"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/editSelectionParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
