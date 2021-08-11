@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.zed.elementhistorydialog.elements.Node;
@@ -54,7 +55,6 @@ import static me.zed.elementhistorydialog.Util.openConnection;
  * have been passed from the ElementHistoryDialog
  */
 public class ComparisonScreen extends DialogFragment {
-
     private XmlPullParserFactory xmlParserFactory = null;
     public static final String DEBUG_TAG = "ComparisonScreen";
     public static final String versionA = "A";
@@ -371,16 +371,16 @@ public class ComparisonScreen extends DialogFragment {
                 lat1.setText(R.string.none);
                 lon1.setText(R.string.none);
             } else {
-                lat1.setText(String.valueOf(((Node) elementA).getLat()));
-                lon1.setText(String.valueOf(((Node) elementA).getLon()));
+                lat1.setText(prettyPrint(((Node) elementA).getLat()));
+                lon1.setText(prettyPrint(((Node) elementA).getLon()));
             }
 
             if (((Node) elementB).getLat() == 0 && ((Node) elementB).getLon() == 0) {
                 lat2.setText(R.string.none);
                 lon2.setText(R.string.none);
             } else {
-                lat2.setText(String.valueOf(((Node) elementB).getLat()));
-                lon2.setText(String.valueOf(((Node) elementB).getLon()));
+                lat2.setText(prettyPrint(((Node) elementB).getLat()));
+                lon2.setText(prettyPrint(((Node) elementB).getLon()));
             }
 
             //todo add distance calculations
@@ -390,6 +390,15 @@ public class ComparisonScreen extends DialogFragment {
 
     }
 
+    /**
+     * Pretty print a coordinate value
+     *
+     * @param coordE7 the coordinate in WGS84*1E7
+     * @return a reasonable looking string representation
+     */
+    private static String prettyPrint(int coordE7) {
+        return String.format(Locale.US, "%.7f", coordE7 / 1E7d) + "°";
+    }
     /**
      * Function to fetch the element history data through the '/history' endpoint
      * on the background thread and post the result back on the main thread
