@@ -8,102 +8,109 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
         android:indeterminate="true" />
-
-    <ScrollView
-        android:id="@+id/comparisonParent"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/back_button_comparison"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Element Comparison"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <ScrollView
+            android:id="@+id/comparisonParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/back_button_comparison"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:src="@drawable/back_arrow" />
+                <include
+                    android:id="@+id/version_A"
+                    layout="@layout/element_details" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Element Comparison"
-                    android:textSize="18sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <include
+                    android:id="@+id/version_B"
+                    layout="@layout/element_details" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableLayout
+                        android:id="@+id/tag_table"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical" />
+
+                </HorizontalScrollView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <include
+                    android:id="@+id/node_details_table"
+                    android:visibility="gone"
+                    layout="@layout/node_details" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <include
+                    android:id="@+id/way_details_table"
+                    android:visibility="gone"
+                    layout="@layout/way_details" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <include
+                    android:id="@+id/relation_details_table"
+                    android:visibility="gone"
+                    layout="@layout/relation_details" />
+
             </LinearLayout>
 
-            <include
-                android:id="@+id/version_A"
-                layout="@layout/element_details" />
+        </ScrollView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+    </LinearLayout>
 
-            <include
-                android:id="@+id/version_B"
-                layout="@layout/element_details" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TableLayout
-                    android:id="@+id/tag_table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:orientation="vertical" />
-
-            </HorizontalScrollView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <include
-                android:id="@+id/node_details_table"
-                android:visibility="gone"
-                layout="@layout/node_details" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <include
-                android:id="@+id/way_details_table"
-                android:visibility="gone"
-                layout="@layout/way_details" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <include
-                android:id="@+id/relation_details_table"
-                android:visibility="gone"
-                layout="@layout/relation_details" />
-
-        </LinearLayout>
-
-    </ScrollView>
 </FrameLayout>
 
