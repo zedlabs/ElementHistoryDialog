@@ -59,9 +59,9 @@ public class TableUtil {
         TableRow tr = new TableRow(ctx);
         tr.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
 
-        tr.addView(getTextViewForTable(7, keyValue, ctx));
-        tr.addView(getTextViewForTable(9, aValue, ctx));
-        tr.addView(getTextViewForTable(9, bValue, ctx));
+        tr.addView(getTextViewForTable(12, keyValue, ctx));
+        tr.addView(getTextViewForTable(12, aValue, ctx));
+        tr.addView(getTextViewForTable(12, bValue, ctx));
 
         return tr;
     }
@@ -78,6 +78,7 @@ public class TableUtil {
         });
         tv.setText(text);
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        tv.setPadding(12, 0, 12, 0);
         return tv;
     }
 
