@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -69,7 +70,12 @@ public class TableUtil {
         TextView tv = new TextView(ctx);
         tv.setMaxEms(ems);
         tv.setSingleLine(true);
+        tv.setHorizontallyScrolling(true);
         tv.setEllipsize(TextUtils.TruncateAt.END);
+        tv.setOnLongClickListener(v -> {
+            Util.makeToast(ctx, text);
+            return false;
+        });
         tv.setText(text);
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
         return tv;
