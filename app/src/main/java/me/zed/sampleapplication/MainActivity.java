@@ -19,8 +19,12 @@ public class MainActivity extends AppCompatActivity {
 
             EditText edt1 = findViewById(R.id.id_edt);
             EditText edt2 = findViewById(R.id.type_edt);
-            ElementHistoryDialog ehd = ElementHistoryDialog.create(Integer.parseInt(edt1.getText().toString()), edt2.getText().toString());
-            ehd.show(getSupportFragmentManager(), "sample-application");
+
+            if(!edt1.getText().toString().isEmpty() && !edt2.getText().toString().isEmpty()) {
+                ElementHistoryDialog ehd = ElementHistoryDialog.create(Integer.parseInt(edt1.getText().toString()), edt2.getText().toString());
+                ehd.show(getSupportFragmentManager(), "sample-application");
+            }
+
         });
 
     }
