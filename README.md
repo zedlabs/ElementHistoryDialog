@@ -22,6 +22,26 @@ Compare changes between 2 different versions(in history) for any node, way, rela
 
 Example Usage - 
 
+ * Add the project using jitpack
+  
+  ```
+   allprojects {
+    repositories {
+      jcenter()
+      maven { url "https://jitpack.io" }
+    }
+   }
+   
+  ```
+   
+ * Add the dependency
+  ```
+  dependencies {
+	        implementation 'com.github.zedlabs:ElementHistoryDialog:1.0.0'
+	}
+ 
+ ```
+
  * The dialog extends the android ```DialogFragment```, so it can be instantiated similar to any other ```DialogFragment```
  ```java  
  
