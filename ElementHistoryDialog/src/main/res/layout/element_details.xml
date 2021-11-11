@@ -30,13 +30,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
             android:text="@string/created_on" />
 
         <TextView
             android:id="@+id/date_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             tools:text="11/1/12 23:12:32" />
 
     </LinearLayout>
