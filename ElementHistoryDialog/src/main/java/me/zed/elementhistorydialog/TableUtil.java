@@ -20,9 +20,9 @@ public class TableUtil {
         TextView tv2 = new TextView(ctx);
         TextView tv3 = new TextView(ctx);
 
-        tv1.setText(R.string.key_text);
-        tv2.setText(ctx.getString(R.string.version_a));
-        tv3.setText(ctx.getString(R.string.version_b));
+        tv1.setText(R.string.zed_ehd_key_text);
+        tv2.setText(ctx.getString(R.string.zed_ehd_version_a));
+        tv3.setText(ctx.getString(R.string.zed_ehd_version_b));
 
         tv1.setTypeface(null, Typeface.BOLD);
         tv2.setTypeface(null, Typeface.BOLD);

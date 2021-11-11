@@ -15,7 +15,7 @@
             android:id="@+id/version_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/version" />
+            android:text="@string/zed_ehd_version" />
 
         <TextView
             android:id="@+id/version_number"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:text="@string/created_on" />
+            android:text="@string/zed_ehd_created_on" />
 
         <TextView
             android:id="@+id/date_created"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:text="@string/user" />
+            android:text="@string/zed_ehd_user" />
 
         <TextView
             android:id="@+id/username"
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:text="@string/changeset" />
+            android:text="@string/zed_ehd_changeset" />
 
         <TextView
             android:id="@+id/changeset_version"
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:text="@string/source" />
+            android:text="@string/zed_ehd_source" />
 
         <TextView
             android:id="@+id/source"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:text="@string/imagery" />
+            android:text="@string/zed_ehd_imagery" />
 
         <TextView
             android:id="@+id/imagery"

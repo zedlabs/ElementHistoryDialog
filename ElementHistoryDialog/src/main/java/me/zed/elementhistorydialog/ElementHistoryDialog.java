@@ -118,7 +118,7 @@ public class ElementHistoryDialog extends DialogFragment {
 
         c.setOnClickListener(v -> {
             if (positionA == -1 || positionB == -1) {
-                Toast.makeText(requireContext(), R.string.select_a_b_toast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.zed_ehd_select_a_b_toast, Toast.LENGTH_SHORT).show();
             } else {
                 //navigate to comparison screen
                 OsmElement elementA = osmParser.getStorage().getAll().get(positionA);

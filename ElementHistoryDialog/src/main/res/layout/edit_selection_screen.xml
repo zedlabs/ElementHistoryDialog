@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="@string/selected_element_deleted"
+            android:text="@string/zed_ehd_selected_element_deleted"
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/go_back"/>
+            android:text="@string/zed_ehd_go_back"/>
 
     </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/version_text"
+                android:text="@string/zed_ehd_version_text"
                 android:textAlignment="center" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:background="@drawable/table_header_border"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/version_a"
+                android:text="@string/zed_ehd_version_a"
                 android:textAlignment="center" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:background="@drawable/table_header_border"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/version_b"
+                android:text="@string/zed_ehd_version_b"
                 android:textAlignment="center" />
 
             <TextView
@@ -92,7 +92,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:singleLine="true"
-                android:text="@string/user_text" />
+                android:text="@string/zed_ehd_user_text" />
 
             <TextView
                 android:layout_width="0dp"
@@ -104,7 +104,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:singleLine="true"
-                android:text="@string/date_text" />
+                android:text="@string/zed_ehd_date_text" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -126,13 +126,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/compare_text" />
+                android:text="@string/zed_ehd_compare_text" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/exit_text" />
+                android:text="@string/zed_ehd_exit_text" />
         </LinearLayout>
 
     </LinearLayout>

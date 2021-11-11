@@ -23,14 +23,14 @@
                 android:id="@+id/back_button_comparison"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/zed_ehd_white"
                 android:src="@drawable/back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Element Comparison"
+                android:text="@string/zed_ehd_element_comparison_title"
                 android:textSize="18sp" />
         </LinearLayout>
         <ScrollView

@@ -204,14 +204,14 @@ public class ComparisonScreen extends DialogFragment {
                 //b also contains - add without bg color, add with change color for value change
                 TableRow tr = addTableRow(s.getKey(), s.getValue(), tagsB.get(s.getKey()), getActivity());
                 if (!s.getValue().equals(tagsB.get(s.getKey()))) {
-                    tr.setBackgroundColor(getResources().getColor(R.color.color_table_change));
+                    tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_change));
                 }
                 tl.addView(tr);
 
             } else {
                 //b does not contain - add with red colo
                 TableRow tr = addTableRow(s.getKey(), s.getValue(), "", getActivity());
-                tr.setBackgroundColor(getResources().getColor(R.color.color_table_deletion));
+                tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_deletion));
                 tl.addView(tr);
             }
         }
@@ -219,7 +219,7 @@ public class ComparisonScreen extends DialogFragment {
             if (!tagsA.containsKey(s.getKey())) {
                 //b contains a does not - add with green color
                 TableRow tr = addTableRow(s.getKey(), "", s.getValue(), getActivity());
-                tr.setBackgroundColor(getResources().getColor(R.color.color_table_addition));
+                tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_addition));
                 tl.addView(tr);
             }
         }
@@ -235,8 +235,8 @@ public class ComparisonScreen extends DialogFragment {
         tl.setStretchAllColumns(true);
         tl.addView(getCustomTableRow(
                 Arrays.asList(
-                        getString(R.string.no_text), getString(R.string.role_text), getString(R.string.object_text),
-                        getString(R.string.no_text), getString(R.string.role_text), getString(R.string.object_text)
+                        getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text),
+                        getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text)
                 ),
                 getActivity()
                 )
@@ -255,21 +255,21 @@ public class ComparisonScreen extends DialogFragment {
             if (findInRelationList(b, a.get(i))) {
                 if (getIndexInList(b, a.get(i)) != -1) visited[getIndexInList(b, a.get(i))] = true;
                 //no change
-                String objectA = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
-                String objectB = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
-                tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, getResources().getColor(R.color.white)));
+                String objectA = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                String objectB = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, getResources().getColor(R.color.zed_ehd_white)));
             } else {
                 // value deleted
-                String objectA = String.format(getString(R.string.relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
-                tl.addView(getRelationTableRow(i, -1, a.get(i).getRole(), "-", objectA, "-", getResources().getColor(R.color.color_table_deletion)));
+                String objectA = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
+                tl.addView(getRelationTableRow(i, -1, a.get(i).getRole(), "-", objectA, "-", getResources().getColor(R.color.zed_ehd_color_table_deletion)));
             }
         }
 
         for (int i = 0; i < b.size(); i++) {
             //value added
             if (!visited[i]) {
-                String objectB = String.format(getString(R.string.relation_object_notation), b.get(i).getType(), String.valueOf(b.get(i).getRef()));
-                tl.addView(getRelationTableRow(-1, i, "-", b.get(i).getRole(), "-", objectB, getResources().getColor(R.color.color_table_addition)));
+                String objectB = String.format(getString(R.string.zed_ehd_relation_object_notation), b.get(i).getType(), String.valueOf(b.get(i).getRef()));
+                tl.addView(getRelationTableRow(-1, i, "-", b.get(i).getRole(), "-", objectB, getResources().getColor(R.color.zed_ehd_color_table_addition)));
             }
         }
 
@@ -298,7 +298,7 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.node_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(Arrays.asList(getString(R.string.no_text), getString(R.string.nodes_text), getString(R.string.no_text), getString(R.string.nodes_text)), getActivity()));
+        tl.addView(getCustomTableRow(Arrays.asList(getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text), getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text)), getActivity()));
 
         List<String> nodesA = ((Way) elementA).getWayNodes();
         List<String> nodesB = ((Way) elementB).getWayNodes();
@@ -313,33 +313,33 @@ public class ComparisonScreen extends DialogFragment {
             if (j < a.size() && k < b.size()) {
                 if (a.get(j).equals(b.get(k))) {
                     //no change
-                    tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.white)));
+                    tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.zed_ehd_white)));
                     j++;
                     k++;
                 } else if (!a.get(j).equals(b.get(k)) && !b.contains(a.get(j))) {
                     if (j == k && !a.contains(b.get(k))) {
                         // value change
-                        tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.color_table_change)));
+                        tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.zed_ehd_color_table_change)));
                         j++;
                         k++;
                     } else {
                         // value deleted
-                        tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
+                        tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.zed_ehd_color_table_deletion)));
                         j++;
                     }
                 } else if (!a.get(j).equals(b.get(k)) && b.contains(a.get(j))) {
                     //value added
-                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
+                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
                     k++;
                 }
             } else {
                 if (k < b.size() && !a.contains(b.get(k))) {
                     //value added
-                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.color_table_addition)));
+                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
                     k++;
                 } else if (j < a.size() && !b.contains(a.get(j))) {
                     // value deleted
-                    tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.color_table_deletion)));
+                    tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.zed_ehd_color_table_deletion)));
                     j++;
                 }
             }
@@ -373,16 +373,16 @@ public class ComparisonScreen extends DialogFragment {
             LinearLayout distance = ll.findViewById(R.id.distance_details);
 
             if (((Node) elementA).getLat() == 0 && ((Node) elementA).getLon() == 0) {
-                lat1.setText(R.string.none);
-                lon1.setText(R.string.none);
+                lat1.setText(R.string.zed_ehd_none);
+                lon1.setText(R.string.zed_ehd_none);
             } else {
                 lat1.setText(prettyPrint(((Node) elementA).getLat()));
                 lon1.setText(prettyPrint(((Node) elementA).getLon()));
             }
 
             if (((Node) elementB).getLat() == 0 && ((Node) elementB).getLon() == 0) {
-                lat2.setText(R.string.none);
-                lon2.setText(R.string.none);
+                lat2.setText(R.string.zed_ehd_none);
+                lon2.setText(R.string.zed_ehd_none);
             } else {
                 lat2.setText(prettyPrint(((Node) elementB).getLat()));
                 lon2.setText(prettyPrint(((Node) elementB).getLon()));
