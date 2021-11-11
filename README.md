@@ -37,7 +37,7 @@ Example Usage -
  * Add the dependency
   ```
   dependencies {
-	        implementation 'com.github.zedlabs:ElementHistoryDialog:1.0.0'
+	        implementation 'com.github.zedlabs:ElementHistoryDialog:1.0.1'
 	}
  
  ```
