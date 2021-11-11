@@ -59,6 +59,9 @@ public class ComparisonScreen extends DialogFragment {
     public static final String DEBUG_TAG = "ComparisonScreen";
     public static final String versionA = "A";
     public static final String versionB = "B";
+    public static final String DATA_A_KEY = "DataA";
+    public static final String DATA_B_KEY = "DataB";
+    public static final String BASE_URL_KEY = "baseUrl";
 
     LinearLayout llA;
     LinearLayout llB;
@@ -67,15 +70,17 @@ public class ComparisonScreen extends DialogFragment {
     ProgressBar progressBar;
     OsmElement elementA, elementB;
     Changeset resultA = null, resultB = null;
+    String baseUrl;
 
     public ComparisonScreen() {
     }
 
-    public static ComparisonScreen newInstance(OsmElement elementA, OsmElement elementB) {
+    public static ComparisonScreen newInstance(String baseUrl, OsmElement elementA, OsmElement elementB) {
         ComparisonScreen cs = new ComparisonScreen();
         Bundle args = new Bundle();
-        args.putSerializable("DataA", elementA);
-        args.putSerializable("DataB", elementB);
+        args.putString(BASE_URL_KEY, baseUrl);
+        args.putSerializable(DATA_A_KEY, elementA);
+        args.putSerializable(DATA_B_KEY, elementB);
         cs.setArguments(args);
         return cs;
     }
@@ -84,9 +89,9 @@ public class ComparisonScreen extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-
-        elementA = (OsmElement) args.getSerializable("DataA");
-        elementB = (OsmElement) args.getSerializable("DataB");
+        baseUrl = args.getString(BASE_URL_KEY);
+        elementA = (OsmElement) args.getSerializable(DATA_A_KEY);
+        elementB = (OsmElement) args.getSerializable(DATA_B_KEY);
     }
 
     @Override
@@ -404,7 +409,7 @@ public class ComparisonScreen extends DialogFragment {
      * on the background thread and post the result back on the main thread
      */
     void fetchChangeset(long csId, String version) {
-        URL url = getChangeSetUrl(csId);
+        URL url = getChangeSetUrl(baseUrl, csId);
         try {
             new AsyncTask<Void, Void, Boolean>() {
 
