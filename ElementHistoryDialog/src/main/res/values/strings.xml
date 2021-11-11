@@ -23,4 +23,5 @@
     <string name="nodes_text">NODES</string>
     <string name="go_back">Go Back</string>
     <string name="selected_element_deleted">The Selected element has been deleted</string>
+    <string name="select_a_b_toast">Select version A &amp; B for comparison</string>
 </resources>
