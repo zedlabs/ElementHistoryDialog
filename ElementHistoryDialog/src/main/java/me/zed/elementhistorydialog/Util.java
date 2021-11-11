@@ -22,20 +22,21 @@ import okhttp3.Response;
 
 public class Util {
 
-    public static final String BASE_HISTORY_URL = "https://api.openstreetmap.org/api/0.6/";
+    public static final String BASE_URL = "https://api.openstreetmap.org/api/0.6/";
     public static final String DEBUG_TAG = "utility-method";
 
     /**
      * Utility URL building function for a given OSM element
      *
+     * @param baseUrl base url for the API
      * @param osmId       id of the current OSM element
      * @param elementType type of the current OSM element
      * @return URL to fetch the history data
      */
-    public static URL getElementHistoryUrl(long osmId, String elementType) {
+    public static URL getElementHistoryUrl(String baseUrl, long osmId, String elementType) {
         URL url = null;
         try {
-            url = new URL(BASE_HISTORY_URL + elementType + "/" + osmId + "/history");
+            url = new URL(baseUrl + elementType + "/" + osmId + "/history");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -45,13 +46,14 @@ public class Util {
     /**
      * Utility URL building function for a given changeset
      *
+     * @param baseUrl base url for the API
      * @param osmId id of the current OSM element
      * @return URL to fetch the changeset
      */
-    public static URL getChangeSetUrl(long osmId) {
+    public static URL getChangeSetUrl(String baseUrl, long osmId) {
         URL url = null;
         try {
-            url = new URL(BASE_HISTORY_URL + "changeset/" + osmId);
+            url = new URL(baseUrl + "changeset/" + osmId);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

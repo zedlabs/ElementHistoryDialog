@@ -49,6 +49,7 @@ public class ElementHistoryDialog extends DialogFragment {
     LinearLayout parentLayout;
     LinearLayout errorLayout;
     Button goBackBtn;
+    String baseUrl;
 
     private static final String DEBUG_TAG = "ElementHistoryDialog";
 
@@ -60,12 +61,25 @@ public class ElementHistoryDialog extends DialogFragment {
      * @return instance of the Dialog
      */
     public static ElementHistoryDialog create(long osmId, String elementType) {
-        return new ElementHistoryDialog(osmId, elementType);
+        return new ElementHistoryDialog(Util.BASE_URL, osmId, elementType);
+    }
+    
+    /**
+     * Method that will create a new instance of the Dialog
+     *
+     * @param baseUrl     base API url to use
+     * @param osmId       the id of the OSM element to be displayed
+     * @param elementType the OSM element type
+     * @return instance of the Dialog
+     */
+    public static ElementHistoryDialog create(String baseUrl, long osmId, String elementType) {
+        return new ElementHistoryDialog(baseUrl, osmId, elementType);
     }
 
-    private ElementHistoryDialog(long osmId, String elementType) {
+    private ElementHistoryDialog(String baseUrl, long osmId, String elementType) {
         this.osmId = osmId;
         this.elementType = elementType;
+        this.baseUrl = baseUrl;
         osmParser = new OsmParser();
     }
 
@@ -104,12 +118,12 @@ public class ElementHistoryDialog extends DialogFragment {
 
         c.setOnClickListener(v -> {
             if (positionA == -1 || positionB == -1) {
-                Toast.makeText(requireContext(), "Select version A & B for comparison", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.select_a_b_toast, Toast.LENGTH_SHORT).show();
             } else {
                 //navigate to comparison screen
                 OsmElement elementA = osmParser.getStorage().getAll().get(positionA);
                 OsmElement elementB = osmParser.getStorage().getAll().get(positionB);
-                ComparisonScreen cs = ComparisonScreen.newInstance(elementA, elementB);
+                ComparisonScreen cs = ComparisonScreen.newInstance(baseUrl, elementA, elementB);
 
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction()
@@ -200,7 +214,7 @@ public class ElementHistoryDialog extends DialogFragment {
      * on the background thread and post the result back on the main thread
      */
     void fetchHistoryData() {
-        URL url = Util.getElementHistoryUrl(osmId, elementType);
+        URL url = Util.getElementHistoryUrl(baseUrl, osmId, elementType);
         try {
             new AsyncTask<Void, Void, Boolean>() {
 
