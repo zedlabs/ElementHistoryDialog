@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_table_addition">#BFFABD</color>
-    <color name="color_table_deletion">#F38F8F</color>
-    <color name="color_table_change">#FBDEDE</color>
-    <color name="gray">#656262</color>
-    <color name="white">#FBFBFB</color>
+    <color name="zed_ehd_color_table_addition">#BFFABD</color>
+    <color name="zed_ehd_color_table_deletion">#F38F8F</color>
+    <color name="zed_ehd_color_table_change">#FBDEDE</color>
+    <color name="zed_ehd_gray">#656262</color>
+    <color name="zed_ehd_white">#FBFBFB</color>
 </resources>
