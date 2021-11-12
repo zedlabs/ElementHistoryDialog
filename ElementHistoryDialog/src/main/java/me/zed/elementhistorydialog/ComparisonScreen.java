@@ -143,7 +143,7 @@ public class ComparisonScreen extends DialogFragment {
                 getDialog().onBackPressed();
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction()
-                            .add(ElementHistoryDialog.create(elementA.osmId, elementA.getType().name().toLowerCase()), null)
+                            .add(ElementHistoryDialog.create(baseUrl, elementA.osmId, elementA.getType().name().toLowerCase()), null)
                             .hide(this)
                             .commit();
                 }
