@@ -252,7 +252,11 @@ public class ElementHistoryDialog extends DialogFragment {
                         //add data to the rows
                         if(progressBar != null) progressBar.setVisibility(View.GONE);
                         parentLayout.setVisibility(View.VISIBLE);
-                        addToList(requireContext());
+                        // silently fail if the context has gone away
+                        Context context = getContext();
+                        if (context != null) {
+                            addToList(context);
+                        }
                     }
                 }
             }.execute();
