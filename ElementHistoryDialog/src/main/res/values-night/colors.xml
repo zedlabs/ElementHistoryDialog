@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zed_ehd_color_table_addition">#5EE359</color>
+    <color name="zed_ehd_color_table_deletion">#E45151</color>
+    <color name="zed_ehd_color_table_change">#A68181</color>
+    <color name="zed_ehd_white">#656262</color>
+</resources>
