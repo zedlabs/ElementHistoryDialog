@@ -23,7 +23,7 @@
                 android:id="@+id/back_button_comparison"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/zed_ehd_white"
+                android:backgroundTint="?attr/colorPrimary"
                 android:src="@drawable/back_arrow" />
 
             <TextView
