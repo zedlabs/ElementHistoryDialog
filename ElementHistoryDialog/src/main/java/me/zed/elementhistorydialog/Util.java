@@ -3,10 +3,12 @@ package me.zed.elementhistorydialog;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,5 +119,27 @@ public class Util {
             if (areEqual(list.get(i), relationMember)) return i;
         }
         return -1;
+    }
+    
+    /**
+     * Returns the color value of the style attribute queried.
+     *
+     * <p>
+     * The attribute will be queried from the theme returned from {@link Context#getTheme()}.
+     * </p>
+     *
+     * @param context the caller's context
+     * @param attribResId the attribute id (i.e. R.attr.some_attribute)
+     * @param defaultRes the value to return if the attribute does not exist
+     * @return the color value for the attribute or defaultValue
+     */
+    public static int getStyleAttribColorValue(@NonNull final Context context, final int attribResId, final int defaultRes) {
+        final TypedValue tv = new TypedValue();
+        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
+        if (!found) {
+            Log.d(DEBUG_TAG, "themed color not found");
+            return ContextCompat.getColor(context, defaultRes);
+        }
+        return tv.data;
     }
 }

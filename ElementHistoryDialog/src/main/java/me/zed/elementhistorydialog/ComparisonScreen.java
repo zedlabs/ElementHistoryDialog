@@ -51,26 +51,26 @@ import static me.zed.elementhistorydialog.Util.getIndexInList;
 import static me.zed.elementhistorydialog.Util.openConnection;
 
 /**
- * Extension of the Element History Dialog used to compare the different selections that
- * have been passed from the ElementHistoryDialog
+ * Extension of the Element History Dialog used to compare the different selections that have been passed from the
+ * ElementHistoryDialog
  */
 public class ComparisonScreen extends DialogFragment {
     private XmlPullParserFactory xmlParserFactory = null;
-    public static final String DEBUG_TAG = "ComparisonScreen";
-    public static final String versionA = "A";
-    public static final String versionB = "B";
-    public static final String DATA_A_KEY = "DataA";
-    public static final String DATA_B_KEY = "DataB";
-    public static final String BASE_URL_KEY = "baseUrl";
+    public static final String   DEBUG_TAG        = "ComparisonScreen";
+    public static final String   versionA         = "A";
+    public static final String   versionB         = "B";
+    public static final String   DATA_A_KEY       = "DataA";
+    public static final String   DATA_B_KEY       = "DataB";
+    public static final String   BASE_URL_KEY     = "baseUrl";
 
     LinearLayout llA;
     LinearLayout llB;
-    ImageButton backButton;
-    ScrollView parent;
-    ProgressBar progressBar;
-    OsmElement elementA, elementB;
-    Changeset resultA = null, resultB = null;
-    String baseUrl;
+    ImageButton  backButton;
+    ScrollView   parent;
+    ProgressBar  progressBar;
+    OsmElement   elementA, elementB;
+    Changeset    resultA = null, resultB = null;
+    String       baseUrl;
 
     public ComparisonScreen() {
     }
@@ -143,9 +143,7 @@ public class ComparisonScreen extends DialogFragment {
                 getDialog().onBackPressed();
                 if (getFragmentManager() != null) {
                     getFragmentManager().beginTransaction()
-                            .add(ElementHistoryDialog.create(baseUrl, elementA.osmId, elementA.getType().name().toLowerCase()), null)
-                            .hide(this)
-                            .commit();
+                            .add(ElementHistoryDialog.create(baseUrl, elementA.osmId, elementA.getType().name().toLowerCase()), null).hide(this).commit();
                 }
             }
         });
@@ -174,19 +172,19 @@ public class ComparisonScreen extends DialogFragment {
         if (!elementA.tags.isEmpty() || !elementB.tags.isEmpty()) {
             addTagTable(tl, elementA.tags, elementB.tags);
         } else {
-            //case both are empty add indicator
+            // case both are empty add indicator
             tl.addView(addEmptyRow(getActivity()));
         }
 
         switch (elementA.getType()) {
-            case NODE:
-                displayNodeData(view);
-                break;
-            case WAY:
-                displayWayData(view);
-                break;
-            case RELATION:
-                displayRelationData(view);
+        case NODE:
+            displayNodeData(view);
+            break;
+        case WAY:
+            displayWayData(view);
+            break;
+        case RELATION:
+            displayRelationData(view);
         }
 
     }
@@ -194,14 +192,14 @@ public class ComparisonScreen extends DialogFragment {
     /**
      * Displays a table to visualize the changes between the tags in the different versions
      *
-     * @param tl    parent table layout
+     * @param tl parent table layout
      * @param tagsA tag list for element A
      * @param tagsB tag list for element B
      */
     void addTagTable(TableLayout tl, Map<String, String> tagsA, Map<String, String> tagsB) {
         for (Map.Entry<String, String> s : tagsA.entrySet()) {
             if (tagsB.containsKey(s.getKey())) {
-                //b also contains - add without bg color, add with change color for value change
+                // b also contains - add without bg color, add with change color for value change
                 TableRow tr = addTableRow(s.getKey(), s.getValue(), tagsB.get(s.getKey()), getActivity());
                 if (!s.getValue().equals(tagsB.get(s.getKey()))) {
                     tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_change));
@@ -209,7 +207,7 @@ public class ComparisonScreen extends DialogFragment {
                 tl.addView(tr);
 
             } else {
-                //b does not contain - add with red colo
+                // b does not contain - add with red colo
                 TableRow tr = addTableRow(s.getKey(), s.getValue(), "", getActivity());
                 tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_deletion));
                 tl.addView(tr);
@@ -217,7 +215,7 @@ public class ComparisonScreen extends DialogFragment {
         }
         for (Map.Entry<String, String> s : tagsB.entrySet()) {
             if (!tagsA.containsKey(s.getKey())) {
-                //b contains a does not - add with green color
+                // b contains a does not - add with green color
                 TableRow tr = addTableRow(s.getKey(), "", s.getValue(), getActivity());
                 tr.setBackgroundColor(getResources().getColor(R.color.zed_ehd_color_table_addition));
                 tl.addView(tr);
@@ -233,14 +231,11 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.relation_member_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(
-                Arrays.asList(
-                        getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text),
-                        getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text)
-                ),
-                getActivity()
-                )
-        );
+        tl.addView(
+                getCustomTableRow(
+                        Arrays.asList(getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text),
+                                getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_role_text), getString(R.string.zed_ehd_object_text)),
+                        getActivity()));
         List<RelationMember> membersA = ((Relation) elementA).getMembers();
         List<RelationMember> membersB = ((Relation) elementB).getMembers();
         addRelationTableRows(tl, membersA, membersB);
@@ -250,14 +245,14 @@ public class ComparisonScreen extends DialogFragment {
     void addRelationTableRows(TableLayout tl, List<RelationMember> a, List<RelationMember> b) {
         Boolean[] visited = new Boolean[b.size()];
         Arrays.fill(visited, false);
-
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(),R.attr.colorPrimary,android.R.color.white);
         for (int i = 0; i < a.size(); i++) {
             if (findInRelationList(b, a.get(i))) {
                 if (getIndexInList(b, a.get(i)) != -1) visited[getIndexInList(b, a.get(i))] = true;
                 //no change
                 String objectA = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
                 String objectB = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
-                tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, getResources().getColor(R.color.zed_ehd_white)));
+                tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, backgroundColor));
             } else {
                 // value deleted
                 String objectA = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
@@ -298,7 +293,8 @@ public class ComparisonScreen extends DialogFragment {
 
         TableLayout tl = parent.findViewById(R.id.node_list_table);
         tl.setStretchAllColumns(true);
-        tl.addView(getCustomTableRow(Arrays.asList(getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text), getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text)), getActivity()));
+        tl.addView(getCustomTableRow(Arrays.asList(getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text),
+                getString(R.string.zed_ehd_no_text), getString(R.string.zed_ehd_nodes_text)), getActivity()));
 
         List<String> nodesA = ((Way) elementA).getWayNodes();
         List<String> nodesB = ((Way) elementB).getWayNodes();
@@ -309,11 +305,13 @@ public class ComparisonScreen extends DialogFragment {
 
     void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
         int j = 0, k = 0;
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(),R.attr.colorPrimary,android.R.color.white);
         while (j < a.size() || k < b.size()) {
             if (j < a.size() && k < b.size()) {
                 if (a.get(j).equals(b.get(k))) {
-                    //no change
-                    tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.zed_ehd_white)));
+                    // no change
+                    tl.addView(
+                            getWayTableRow(j, k, a.get(j), b.get(k), backgroundColor));
                     j++;
                     k++;
                 } else if (!a.get(j).equals(b.get(k)) && !b.contains(a.get(j))) {
@@ -328,13 +326,13 @@ public class ComparisonScreen extends DialogFragment {
                         j++;
                     }
                 } else if (!a.get(j).equals(b.get(k)) && b.contains(a.get(j))) {
-                    //value added
+                    // value added
                     tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
                     k++;
                 }
             } else {
                 if (k < b.size() && !a.contains(b.get(k))) {
-                    //value added
+                    // value added
                     tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
                     k++;
                 } else if (j < a.size() && !b.contains(a.get(j))) {
@@ -388,7 +386,7 @@ public class ComparisonScreen extends DialogFragment {
                 lon2.setText(prettyPrint(((Node) elementB).getLon()));
             }
 
-            //todo add distance calculations
+            // todo add distance calculations
             distance.setVisibility(View.GONE);
             ll.setVisibility(View.VISIBLE);
         }
@@ -404,9 +402,10 @@ public class ComparisonScreen extends DialogFragment {
     private static String prettyPrint(int coordE7) {
         return String.format(Locale.US, "%.7f", coordE7 / 1E7d) + "°";
     }
+
     /**
-     * Function to fetch the element history data through the '/history' endpoint
-     * on the background thread and post the result back on the main thread
+     * Function to fetch the element history data through the '/history' endpoint on the background thread and post the
+     * result back on the main thread
      */
     void fetchChangeset(long csId, String version) {
         URL url = getChangeSetUrl(baseUrl, csId);
@@ -441,9 +440,9 @@ public class ComparisonScreen extends DialogFragment {
                 protected void onPostExecute(Boolean result) {
                     super.onPostExecute(result);
                     if (result == false) {
-                        //handle failed case
+                        // handle failed case
                     } else {
-                        //add data to the rows
+                        // add data to the rows
                         displayChangeSetData(version);
                     }
                 }
@@ -476,20 +475,20 @@ public class ComparisonScreen extends DialogFragment {
         if (result != null) {
             for (Map.Entry<String, String> s : result.tags.entrySet()) {
                 switch (s.getKey()) {
-                    case KEY_COMMENT:
-                        description.setText(s.getValue());
-                        description.setVisibility(View.VISIBLE);
-                        break;
-                    case KEY_SOURCE:
-                        source.setText(s.getValue());
-                        sourceParent.setVisibility(View.VISIBLE);
-                        break;
-                    case KEY_IMAGERY_USED:
-                        imagery.setText(s.getValue());
-                        imageryParent.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        //nothing
+                case KEY_COMMENT:
+                    description.setText(s.getValue());
+                    description.setVisibility(View.VISIBLE);
+                    break;
+                case KEY_SOURCE:
+                    source.setText(s.getValue());
+                    sourceParent.setVisibility(View.VISIBLE);
+                    break;
+                case KEY_IMAGERY_USED:
+                    imagery.setText(s.getValue());
+                    imageryParent.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    // nothing
                 }
             }
         }
