@@ -306,38 +306,44 @@ public class ComparisonScreen extends DialogFragment {
     void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
         int j = 0, k = 0;
         final int backgroundColor = Util.getStyleAttribColorValue(getContext(),R.attr.colorPrimary,android.R.color.white);
-        while (j < a.size() || k < b.size()) {
-            if (j < a.size() && k < b.size()) {
-                if (a.get(j).equals(b.get(k))) {
+        final int changedColor = getResources().getColor(R.color.zed_ehd_color_table_change);
+        final int deletedColor = getResources().getColor(R.color.zed_ehd_color_table_deletion);
+        final int addedColor = getResources().getColor(R.color.zed_ehd_color_table_addition);
+        final int aSize = a.size();
+        final int bSize = b.size();
+        while (j < aSize || k < bSize) {
+            if (j < aSize && k < bSize) {
+                final String aElement = a.get(j);
+                final String bElement = b.get(k);
+                if (aElement.equals(bElement)) {
                     // no change
-                    tl.addView(
-                            getWayTableRow(j, k, a.get(j), b.get(k), backgroundColor));
+                    tl.addView(getWayTableRow(j, k, aElement, bElement, backgroundColor));
                     j++;
                     k++;
-                } else if (!a.get(j).equals(b.get(k)) && !b.contains(a.get(j))) {
-                    if (j == k && !a.contains(b.get(k))) {
+                } else if (!aElement.equals(bElement) && !b.contains(aElement)) {
+                    if (j == k && !a.contains(bElement)) {
                         // value change
-                        tl.addView(getWayTableRow(j, k, a.get(j), b.get(k), getResources().getColor(R.color.zed_ehd_color_table_change)));
+                        tl.addView(getWayTableRow(j, k, aElement, bElement, changedColor));
                         j++;
                         k++;
                     } else {
                         // value deleted
-                        tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.zed_ehd_color_table_deletion)));
+                        tl.addView(getWayTableRow(j, -1, aElement, "-", deletedColor));
                         j++;
                     }
-                } else if (!a.get(j).equals(b.get(k)) && b.contains(a.get(j))) {
+                } else if (!aElement.equals(bElement) && b.contains(aElement)) {
                     // value added
-                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
+                    tl.addView(getWayTableRow(-1, k, "-", bElement, addedColor));
                     k++;
                 }
             } else {
-                if (k < b.size() && !a.contains(b.get(k))) {
-                    // value added
-                    tl.addView(getWayTableRow(-1, k, "-", b.get(k), getResources().getColor(R.color.zed_ehd_color_table_addition)));
+                if (k < bSize) {
+                    final String bElement = b.get(k);
+                    tl.addView(getWayTableRow(-1, k, "-", bElement, !a.contains(bElement) ? addedColor : changedColor));
                     k++;
-                } else if (j < a.size() && !b.contains(a.get(j))) {
-                    // value deleted
-                    tl.addView(getWayTableRow(j, -1, a.get(j), "-", getResources().getColor(R.color.zed_ehd_color_table_deletion)));
+                } else if (j < aSize) {
+                    final String aElement = a.get(j);
+                    tl.addView(getWayTableRow(j, -1, aElement, "-", !b.contains(aElement) ? deletedColor : changedColor));
                     j++;
                 }
             }
