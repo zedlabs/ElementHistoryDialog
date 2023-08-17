@@ -35,40 +35,43 @@ import me.zed.elementhistorydialog.elements.OsmElement;
 import static me.zed.elementhistorydialog.Util.openConnection;
 
 public class ElementHistoryDialog extends DialogFragment {
+    private static final String DEBUG_TAG = ElementHistoryDialog.class.getSimpleName();
 
-    //data associated with the selected OSM element
-    private long osmId;
-    private String elementType;
+    private static final String ELEMENT_TYPE_KEY = "element_type";
+    private static final String OSM_ID_KEY       = "osm_id";
+    private static final String BASE_URL_KEY     = "base_url";
+
+    // data associated with the selected OSM element
+    private long      osmId;
+    private String    elementType;
     private OsmParser osmParser;
 
-    //selections to pass to the comparison screen
+    // selections to pass to the comparison screen
     private int positionA = -1, positionB = -1;
 
     RecyclerView versionList;
-    ProgressBar progressBar;
+    ProgressBar  progressBar;
     LinearLayout parentLayout;
     LinearLayout errorLayout;
-    Button goBackBtn;
-    String baseUrl;
-
-    private static final String DEBUG_TAG = "ElementHistoryDialog";
+    Button       goBackBtn;
+    String       baseUrl;
 
     /**
      * Method that will create a new instance of the Dialog
      *
-     * @param osmId       the id of the OSM element to be displayed
+     * @param osmId the id of the OSM element to be displayed
      * @param elementType the OSM element type
      * @return instance of the Dialog
      */
     public static ElementHistoryDialog create(long osmId, String elementType) {
         return new ElementHistoryDialog(Util.BASE_URL, osmId, elementType);
     }
-    
+
     /**
      * Method that will create a new instance of the Dialog
      *
-     * @param baseUrl     base API url to use
-     * @param osmId       the id of the OSM element to be displayed
+     * @param baseUrl base API url to use
+     * @param osmId the id of the OSM element to be displayed
      * @param elementType the OSM element type
      * @return instance of the Dialog
      */
@@ -77,13 +80,15 @@ public class ElementHistoryDialog extends DialogFragment {
     }
 
     private ElementHistoryDialog(String baseUrl, long osmId, String elementType) {
+        this();
         this.osmId = osmId;
         this.elementType = elementType;
         this.baseUrl = baseUrl;
-        osmParser = new OsmParser();
     }
 
-    public ElementHistoryDialog(){}
+    public ElementHistoryDialog() {
+        osmParser = new OsmParser();
+    }
 
     @Override
     public void onStart() {
@@ -97,7 +102,18 @@ public class ElementHistoryDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        if (savedInstanceState != null) {
+            Log.d(DEBUG_TAG, "Restoring from instance state");
+            String temp = savedInstanceState.getString(ELEMENT_TYPE_KEY);
+            if (temp != null) {
+                elementType = temp;
+            }
+            osmId = savedInstanceState.getLong(OSM_ID_KEY);
+            temp = savedInstanceState.getString(BASE_URL_KEY);
+            if (temp != null) {
+                baseUrl = temp;
+            }
+        }
         View parent = inflater.inflate(R.layout.edit_selection_screen, null);
         versionList = (RecyclerView) parent.findViewById(R.id.itemVersionList);
         progressBar = parent.findViewById(R.id.editSelectionProgressBar);
@@ -115,21 +131,17 @@ public class ElementHistoryDialog extends DialogFragment {
 
         fetchHistoryData();
 
-
         c.setOnClickListener(v -> {
             if (positionA == -1 || positionB == -1) {
                 Toast.makeText(requireContext(), R.string.zed_ehd_select_a_b_toast, Toast.LENGTH_SHORT).show();
             } else {
-                //navigate to comparison screen
+                // navigate to comparison screen
                 OsmElement elementA = osmParser.getStorage().getAll().get(positionA);
                 OsmElement elementB = osmParser.getStorage().getAll().get(positionB);
                 ComparisonScreen cs = ComparisonScreen.newInstance(baseUrl, elementA, elementB);
 
                 if (getFragmentManager() != null) {
-                    getFragmentManager().beginTransaction()
-                            .add(cs, null)
-                            .remove(this)
-                            .commit();
+                    getFragmentManager().beginTransaction().add(cs, null).remove(this).commit();
                 }
             }
         });
@@ -155,10 +167,8 @@ public class ElementHistoryDialog extends DialogFragment {
     private void addToList(Context ctx) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
         versionList.setLayoutManager(layoutManager);
-        final VersionListAdapter adapter = new VersionListAdapter(
-                osmParser.getStorage().getAll(),
-                new AOnCheckedChangeListener(osmParser.getStorage().getAll()),
-                new BOnCheckedChangeListener(osmParser.getStorage().getAll()));
+        final VersionListAdapter adapter = new VersionListAdapter(osmParser.getStorage().getAll(),
+                new AOnCheckedChangeListener(osmParser.getStorage().getAll()), new BOnCheckedChangeListener(osmParser.getStorage().getAll()));
         versionList.setAdapter(adapter);
     }
 
@@ -206,12 +216,13 @@ public class ElementHistoryDialog extends DialogFragment {
         }
     }
 
-    void showFailedCaseUI(){
+    void showFailedCaseUI() {
         errorLayout.setVisibility(View.VISIBLE);
     }
+
     /**
-     * Function to fetch the element history data through the '/history' endpoint
-     * on the background thread and post the result back on the main thread
+     * Function to fetch the element history data through the '/history' endpoint on the background thread and post the
+     * result back on the main thread
      */
     void fetchHistoryData() {
         URL url = Util.getElementHistoryUrl(baseUrl, osmId, elementType);
@@ -234,8 +245,8 @@ public class ElementHistoryDialog extends DialogFragment {
                             e.printStackTrace();
                         }
                     } else {
-                        //element deleted go back
-                        //return false;
+                        // element deleted go back
+                        // return false;
                     }
                     return false;
                 }
@@ -244,13 +255,14 @@ public class ElementHistoryDialog extends DialogFragment {
                 protected void onPostExecute(Boolean result) {
                     super.onPostExecute(result);
                     if (result == false) {
-                        //handle failed case
+                        // handle failed case
                         Log.e("AsyncTask", "failed to load result");
                         progressBar.setVisibility(View.GONE);
                         showFailedCaseUI();
                     } else {
-                        //add data to the rows
-                        if(progressBar != null) progressBar.setVisibility(View.GONE);
+                        // add data to the rows
+                        if (progressBar != null)
+                            progressBar.setVisibility(View.GONE);
                         parentLayout.setVisibility(View.VISIBLE);
                         // silently fail if the context has gone away
                         Context context = getContext();
@@ -263,5 +275,13 @@ public class ElementHistoryDialog extends DialogFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        Log.d(DEBUG_TAG, "Saving instance state");
+        bundle.putString(ELEMENT_TYPE_KEY, elementType);
+        bundle.putLong(OSM_ID_KEY, osmId);
+        bundle.putString(BASE_URL_KEY, baseUrl);
     }
 }
