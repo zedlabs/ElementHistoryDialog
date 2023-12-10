@@ -22,7 +22,10 @@
     <string name="zed_ehd_object_text">OBJECT</string>
     <string name="zed_ehd_nodes_text">NODES</string>
     <string name="zed_ehd_go_back">Go Back</string>
-    <string name="zed_ehd_selected_element_deleted">The Selected element has been deleted</string>
+    <string name="zed_ehd_selected_unknown_error">Unknown error</string>
+    <string name="zed_ehd_selected_element_deleted">The selected element has been deleted</string>
+    <string name="zed_ehd_error_with_code">Error: %1$s \ncode: %2$d</string>
+    <string name="zed_ehd_error">Error: %1$s</string>
     <string name="zed_ehd_select_a_b_toast">Select version A &amp; B for comparison</string>
     <string name="zed_ehd_element_comparison_title">Element Comparison</string>
 </resources>

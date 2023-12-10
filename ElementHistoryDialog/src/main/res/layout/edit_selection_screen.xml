@@ -19,7 +19,8 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="@string/zed_ehd_selected_element_deleted"
+            android:id="@+id/error_message"
+            android:text="@string/zed_ehd_selected_unknown_error"
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:textSize="20sp"

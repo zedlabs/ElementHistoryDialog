@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -78,7 +79,7 @@ public class Util {
      * @throws IOException on any IO and other error
      */
     @NonNull
-    public static InputStream openConnection(@Nullable final Context context, @NonNull URL url) throws IOException {
+    public static InputStream openConnection(@Nullable final Context context, @NonNull URL url) throws IOException, OsmApiException {
         Log.d(DEBUG_TAG, "get history data for  " + url.toString());
         try {
             Request request = new Request.Builder().url(url).build();
@@ -96,6 +97,7 @@ public class Util {
                 if (context != null) {
                     ((Activity) context).runOnUiThread(() -> Util.makeToast(context, readCallResponse.message()));
                 }
+                throw new OsmApiException(readCallResponse.message(), readCallResponse.code());
             }
         } catch (IllegalArgumentException iaex) {
             throw new IOException("Illegal argument", iaex);
@@ -141,5 +143,23 @@ public class Util {
             return ContextCompat.getColor(context, defaultRes);
         }
         return tv.data;
+    }
+    
+    /**
+     * Display an Exceptions message in a TextView
+     * 
+     * @param ctx an Android context
+     * @param textView the TextView
+     * @param ex the Exception
+     */
+    public static void displayException(@NonNull Context ctx, @NonNull TextView textView, @NonNull Exception ex) {
+        if (ex != null) {
+            String message = ex.getLocalizedMessage();
+            if (ex instanceof OsmApiException) {
+                textView.setText(ctx.getString(R.string.zed_ehd_error_with_code, message, ((OsmApiException) ex).getErrorCode()));
+            } else {
+                textView.setText(ctx.getString(R.string.zed_ehd_error, message));
+            }          
+        }
     }
 }
