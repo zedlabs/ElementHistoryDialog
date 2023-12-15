@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,7 @@ public class ElementHistoryDialog extends DialogFragment {
     ProgressBar  progressBar;
     LinearLayout parentLayout;
     LinearLayout errorLayout;
+    TextView     errorMessage;
     Button       goBackBtn;
     String       baseUrl;
 
@@ -119,6 +121,7 @@ public class ElementHistoryDialog extends DialogFragment {
         progressBar = parent.findViewById(R.id.editSelectionProgressBar);
         parentLayout = parent.findViewById(R.id.editSelectionParent);
         errorLayout = parent.findViewById(R.id.error_layout);
+        errorMessage = parent.findViewById(R.id.error_message);
         return parent;
     }
 
@@ -212,12 +215,17 @@ public class ElementHistoryDialog extends DialogFragment {
             } else {
                 Log.e(DEBUG_TAG, "position out of range 0-" + (ids.size() - 1) + ": " + position);
             }
-
         }
     }
 
-    void showFailedCaseUI() {
+    /**
+     * Display an error message
+     * 
+     * @param ex the Exception
+     */
+    private void showFailedCaseUI(@Nullable Exception ex) {
         errorLayout.setVisibility(View.VISIBLE);
+        Util.displayException(getContext(), errorMessage, ex);
     }
 
     /**
@@ -229,36 +237,30 @@ public class ElementHistoryDialog extends DialogFragment {
         try {
             new AsyncTask<Void, Void, Boolean>() {
 
+                Exception exception = null;
+
                 @Override
                 protected Boolean doInBackground(Void... voids) {
-                    InputStream is = null;
-                    try {
-                        is = openConnection(getActivity(), url);
-                    } catch (IOException e) {
-                        Log.e(DEBUG_TAG, e.getMessage());
-                    }
-                    if (is != null) {
-                        try {
+                    try (InputStream is = openConnection(getActivity(), url)) {
+                        if (is != null) {
                             osmParser.start(is);
                             return true;
-                        } catch (SAXException | IOException | ParserConfigurationException e) {
-                            e.printStackTrace();
                         }
-                    } else {
-                        // element deleted go back
-                        // return false;
+                    } catch (SAXException | IOException | ParserConfigurationException | OsmApiException e) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                        exception = e;
                     }
                     return false;
                 }
 
                 @Override
-                protected void onPostExecute(Boolean result) {
-                    super.onPostExecute(result);
-                    if (result == false) {
+                protected void onPostExecute(Boolean successful) {
+                    super.onPostExecute(successful);
+                    if (!successful) {
                         // handle failed case
                         Log.e("AsyncTask", "failed to load result");
                         progressBar.setVisibility(View.GONE);
-                        showFailedCaseUI();
+                        showFailedCaseUI(exception);
                     } else {
                         // add data to the rows
                         if (progressBar != null)

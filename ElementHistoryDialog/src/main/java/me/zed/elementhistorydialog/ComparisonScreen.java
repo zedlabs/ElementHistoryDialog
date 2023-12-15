@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -29,6 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import me.zed.elementhistorydialog.elements.Node;
 import me.zed.elementhistorydialog.elements.OsmElement;
@@ -245,11 +248,12 @@ public class ComparisonScreen extends DialogFragment {
     void addRelationTableRows(TableLayout tl, List<RelationMember> a, List<RelationMember> b) {
         Boolean[] visited = new Boolean[b.size()];
         Arrays.fill(visited, false);
-        final int backgroundColor = Util.getStyleAttribColorValue(getContext(),R.attr.colorPrimary,android.R.color.white);
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), R.attr.colorPrimary, android.R.color.white);
         for (int i = 0; i < a.size(); i++) {
             if (findInRelationList(b, a.get(i))) {
-                if (getIndexInList(b, a.get(i)) != -1) visited[getIndexInList(b, a.get(i))] = true;
-                //no change
+                if (getIndexInList(b, a.get(i)) != -1)
+                    visited[getIndexInList(b, a.get(i))] = true;
+                // no change
                 String objectA = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
                 String objectB = String.format(getString(R.string.zed_ehd_relation_object_notation), a.get(i).getType(), String.valueOf(a.get(i).getRef()));
                 tl.addView(getRelationTableRow(i, i, a.get(i).getRole(), a.get(i).getRole(), objectA, objectB, backgroundColor));
@@ -261,7 +265,7 @@ public class ComparisonScreen extends DialogFragment {
         }
 
         for (int i = 0; i < b.size(); i++) {
-            //value added
+            // value added
             if (!visited[i]) {
                 String objectB = String.format(getString(R.string.zed_ehd_relation_object_notation), b.get(i).getType(), String.valueOf(b.get(i).getRef()));
                 tl.addView(getRelationTableRow(-1, i, "-", b.get(i).getRole(), "-", objectB, getResources().getColor(R.color.zed_ehd_color_table_addition)));
@@ -305,7 +309,7 @@ public class ComparisonScreen extends DialogFragment {
 
     void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
         int j = 0, k = 0;
-        final int backgroundColor = Util.getStyleAttribColorValue(getContext(),R.attr.colorPrimary,android.R.color.white);
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), R.attr.colorPrimary, android.R.color.white);
         final int changedColor = getResources().getColor(R.color.zed_ehd_color_table_change);
         final int deletedColor = getResources().getColor(R.color.zed_ehd_color_table_deletion);
         final int addedColor = getResources().getColor(R.color.zed_ehd_color_table_addition);
@@ -418,26 +422,22 @@ public class ComparisonScreen extends DialogFragment {
         try {
             new AsyncTask<Void, Void, Boolean>() {
 
+                Exception ex;
+
                 @Override
                 protected Boolean doInBackground(Void... voids) {
-                    InputStream is = null;
-                    try {
-                        is = openConnection(getActivity(), url);
-                    } catch (IOException e) {
-                        Log.e(DEBUG_TAG, e.getMessage());
-                    }
-                    if (is != null) {
-                        try {
+                    try (InputStream is = openConnection(getActivity(), url)) {
+                        if (is != null) {
                             if (version == versionA) {
                                 resultA = Changeset.parse(xmlParserFactory.newPullParser(), is);
                             } else {
                                 resultB = Changeset.parse(xmlParserFactory.newPullParser(), is);
                             }
-
                             return true;
-                        } catch (IOException | XmlPullParserException e) {
-                            e.printStackTrace();
                         }
+                    } catch (IOException | XmlPullParserException | OsmApiException e) {
+                        Log.e(DEBUG_TAG, "Caught exception " + e.getMessage());
+                        ex = e;
                     }
                     return false;
                 }
@@ -446,7 +446,9 @@ public class ComparisonScreen extends DialogFragment {
                 protected void onPostExecute(Boolean result) {
                     super.onPostExecute(result);
                     if (result == false) {
-                        // handle failed case
+                        if (ex != null) {
+                            displayError(version, ex);
+                        }
                     } else {
                         // add data to the rows
                         displayChangeSetData(version);
@@ -454,7 +456,27 @@ public class ComparisonScreen extends DialogFragment {
                 }
             }.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(DEBUG_TAG, "Caught exception " + e.getMessage());
+        }
+    }
+
+    /**
+     * Display an error message
+     *
+     * @param version OSM element history version
+     */
+    void displayError(String version, Exception ex) {
+        LinearLayout ll = llA;
+        if (version.equals(versionB)) {
+            ll = llB;
+        }
+        TextView description = ll.findViewById(R.id.description_text);
+        description.setVisibility(View.VISIBLE);
+        Util.displayException(getContext(), description, ex);
+
+        if (version.equals(versionB)) {
+            parent.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
