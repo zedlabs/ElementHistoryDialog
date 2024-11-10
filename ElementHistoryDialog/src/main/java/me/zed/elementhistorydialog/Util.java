@@ -152,7 +152,11 @@ public class Util {
      * @param textView the TextView
      * @param ex the Exception
      */
-    public static void displayException(@NonNull Context ctx, @NonNull TextView textView, @NonNull Exception ex) {
+    public static void displayException(@Nullable Context ctx, @NonNull TextView textView, @NonNull Exception ex) {
+        if (ctx == null) {
+            Log(DEBUG_TAG, "displayException null Context");
+            return;
+        }
         if (ex != null) {
             String message = ex.getLocalizedMessage();
             if (ex instanceof OsmApiException) {
