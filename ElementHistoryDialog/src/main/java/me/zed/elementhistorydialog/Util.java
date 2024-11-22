@@ -154,7 +154,7 @@ public class Util {
      */
     public static void displayException(@Nullable Context ctx, @NonNull TextView textView, @NonNull Exception ex) {
         if (ctx == null) {
-            Log(DEBUG_TAG, "displayException null Context");
+            Log.d(DEBUG_TAG, "displayException null Context");
             return;
         }
         if (ex != null) {
