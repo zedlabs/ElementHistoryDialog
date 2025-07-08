@@ -16,21 +16,18 @@ import java.util.List;
 import me.zed.elementhistorydialog.elements.OsmElement;
 
 public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.ItemViewHolder> {
-    private List<OsmElement> elements;
-    private long currentIdA;
-    private long currentIdB;
+    private List<OsmElement>                                  elements;
     private android.widget.RadioGroup.OnCheckedChangeListener groupAChangeListener;
     private android.widget.RadioGroup.OnCheckedChangeListener groupBChangeListener;
-
-    private int selectedA = -1;
-    private int selectedB = -1;
+    private int                                               selectedA = -1;
+    private int                                               selectedB = -1;
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         AppCompatRadioButton buttonA;
         AppCompatRadioButton buttonB;
-        TextView versionText;
-        TextView dateText;
-        TextView usernameText;
+        TextView             versionText;
+        TextView             dateText;
+        TextView             usernameText;
 
         /**
          * Create a new ViewHolder
@@ -44,13 +41,11 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
             versionText = v.findViewById(R.id.osmVersion);
             dateText = v.findViewById(R.id.timestamp);
             usernameText = v.findViewById(R.id.user);
-
         }
     }
 
-    public VersionListAdapter(@NonNull List<OsmElement> items,
-                              @NonNull RadioGroup.OnCheckedChangeListener groupAChangeListener,
-                              @NonNull RadioGroup.OnCheckedChangeListener groupBChangeListener) {
+    public VersionListAdapter(@NonNull List<OsmElement> items, @NonNull RadioGroup.OnCheckedChangeListener groupAChangeListener,
+            @NonNull RadioGroup.OnCheckedChangeListener groupBChangeListener) {
         this.elements = items;
         this.groupAChangeListener = groupAChangeListener;
         this.groupBChangeListener = groupBChangeListener;
@@ -58,54 +53,44 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
 
     final OnCheckedChangeListener onCheckedChangeListenerA = (buttonView, isChecked) -> {
         Integer position = (Integer) buttonView.getTag();
-        if (position != null) {
+        if (position != null && position >= 0 && position < elements.size()) {
             VersionListAdapter.this.notifyItemChanged(selectedA);
-            currentIdA = elements.get(position).osmVersion;
-            selectedA = position;
             groupAChangeListener.onCheckedChanged(null, position);
+            selectedA = position;
         }
     };
 
     final OnCheckedChangeListener onCheckedChangeListenerB = (buttonView, isChecked) -> {
         Integer position = (Integer) buttonView.getTag();
-        if (position != null) {
+        if (position != null && position >= 0 && position < elements.size()) {
             VersionListAdapter.this.notifyItemChanged(selectedB);
-            currentIdB = elements.get(position).osmVersion;
-            selectedB = position;
             groupBChangeListener.onCheckedChanged(null, position);
+            selectedB = position;
         }
     };
 
     @Override
     public VersionListAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View listItem = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.version_list_item, parent, false);
+        View listItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.version_list_item, parent, false);
         return new ItemViewHolder(listItem);
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        holder.versionText.setText(String.valueOf(elements.get(position).osmVersion));
-        holder.dateText.setText(elements.get(position).timestamp);
-        holder.usernameText.setText(elements.get(position).username);
-        holder.buttonA.setTag(position);
-        holder.buttonA.setOnCheckedChangeListener(null);
-        if (elements.get(position).osmVersion == currentIdA) {
-            holder.buttonA.setChecked(true);
-            selectedA = position;
-        } else {
-            holder.buttonA.setChecked(false);
-        }
-        holder.buttonA.setOnCheckedChangeListener(onCheckedChangeListenerA);
-        holder.buttonB.setTag(position);
-        holder.buttonB.setOnCheckedChangeListener(null);
-        if (elements.get(position).osmVersion == currentIdB) {
-            holder.buttonB.setChecked(true);
-            selectedB = position;
-        } else {
-            holder.buttonB.setChecked(false);
-        }
-        holder.buttonB.setOnCheckedChangeListener(onCheckedChangeListenerB);
+        OsmElement element = elements.get(position);
+        holder.versionText.setText(String.valueOf(element.osmVersion));
+        holder.dateText.setText(element.timestamp);
+        holder.usernameText.setText(element.username);
+
+        setupButton(holder.buttonA, position, selectedA, onCheckedChangeListenerA);
+        setupButton(holder.buttonB, position, selectedB, onCheckedChangeListenerB);
+    }
+
+    private void setupButton(AppCompatRadioButton button, int position, int selected, OnCheckedChangeListener onCheckedChangeListener) {
+        button.setTag(position);
+        button.setOnCheckedChangeListener(null);
+        button.setChecked(elements.get(position).osmVersion == selected);
+        button.setOnCheckedChangeListener(onCheckedChangeListener);
     }
 
     @Override
