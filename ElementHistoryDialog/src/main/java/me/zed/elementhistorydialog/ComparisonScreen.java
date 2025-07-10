@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import me.zed.elementhistorydialog.R;
 import me.zed.elementhistorydialog.elements.Node;
 import me.zed.elementhistorydialog.elements.OsmElement;
 import me.zed.elementhistorydialog.elements.Relation;
@@ -102,7 +104,8 @@ public class ComparisonScreen extends DialogFragment {
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            final Window window = dialog.getWindow();
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, window.getAttributes().height);
         }
     }
 
@@ -248,7 +251,7 @@ public class ComparisonScreen extends DialogFragment {
     void addRelationTableRows(TableLayout tl, List<RelationMember> a, List<RelationMember> b) {
         Boolean[] visited = new Boolean[b.size()];
         Arrays.fill(visited, false);
-        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), R.attr.colorPrimary, android.R.color.white);
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), android.R.attr.colorPrimary, android.R.color.white);
         for (int i = 0; i < a.size(); i++) {
             if (findInRelationList(b, a.get(i))) {
                 if (getIndexInList(b, a.get(i)) != -1)
@@ -309,7 +312,7 @@ public class ComparisonScreen extends DialogFragment {
 
     void addWayTableRows(TableLayout tl, List<String> a, List<String> b) {
         int j = 0, k = 0;
-        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), R.attr.colorPrimary, android.R.color.white);
+        final int backgroundColor = Util.getStyleAttribColorValue(getContext(), android.R.attr.colorPrimary, android.R.color.white);
         final int changedColor = getResources().getColor(R.color.zed_ehd_color_table_change);
         final int deletedColor = getResources().getColor(R.color.zed_ehd_color_table_deletion);
         final int addedColor = getResources().getColor(R.color.zed_ehd_color_table_addition);
